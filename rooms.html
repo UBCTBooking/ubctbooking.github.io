@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+
+</html>
+
+<head>
+  <title>Rooms Page</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.0.1/firebase.js"></script>
+
+</head>
+
+<style>
+  body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100vh;
+    padding-left: 160px;
+  }
+
+  h1 {
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 30px;
+    line-height: 35px;
+  }
+
+  h2 {
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+    /* font-size: 25px; */
+    margin: 10px 0;
+    line-height: 10px;
+  }
+
+  h3 {
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 40px;
+    margin: 10px 0;
+    line-height: 0px;
+    font-weight: 1000;
+  }
+
+  form {
+    font-family: 'Times New Roman', Times, serif;
+  }
+
+  .container {
+    text-align: center;
+    padding: 16px;
+    position: relative;
+  }
+
+  .container1 {
+    text-align: center;
+    padding: 3px;
+    border-style: groove;
+    position: relative;
+  }
+
+  .container2 {
+    text-align: center;
+    padding: 3px;
+    border-style: groove;
+    position: relative;
+  }
+
+  span.psw {
+    float: center;
+    text-align: center;
+    padding-top: 16px;
+    margin: 3px 0;
+  }
+
+  .sidebar {
+    height: 100%;
+    width: 160px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgb(24, 19, 19);
+    overflow-x: hidden;
+    padding-top: 16px;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  }
+
+  .sidebar a {
+    font-family: verdana;
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #ffffff;
+    display: block;
+  }
+
+  .sidebar a:hover {
+    color: RoyalBlue;
+  }
+
+
+  .main {
+    margin-left: 160px;
+    /* Same as the width of the sidenav */
+    padding: 0px 10px;
+  }
+
+  @media screen and (max-height: 450px) {
+    .sidebar {
+      padding-top: 15px;
+    }
+
+    .sidebar a {
+      font-size: 18px;
+    }
+  }
+
+  .text-block {
+    /* position: absolute; */
+    /* bottom: 100px; */
+    /* right: 20px; */
+    height: 100%;
+    background-color: white;
+    color: black;
+    /* padding-left: 20px;
+  padding-right: 20px; */
+  }
+</style>
+
+<body>
+  <div class="sidebar">
+    <a href="home.html"><i class="material-icons">home</i> Home</a>
+    <a href="calendar.html"><i class="material-icons">insert_invitation</i> Calendar</a>
+    <a href="rooms.html"><i class="material-icons">cloud</i> Rooms</a>
+    <a href="account.html"><i class="material-icons">person</i> Account</a>
+  </div>
+
+  <div class="container" style="width: 100%; height: 200px">
+    <br><br>
+    <h1><strong>LIST OF MEETING ROOMS</strong></h1>
+    <br><br>
+    <label for="dateselect" style="font-size:18pt;">Date:</label>
+    <input style="height:30px;font-size:14pt;" type="date" id="dateselect" name="dateselect">
+    <input style="height:30px;font-size:14pt;" type="submit" onclick="loadData();">
+  </div>
+
+  <div class="container" id="main_container">
+
+  </div>
+
+  <script>
+
+    timeList = [];
+    var time1 = localStorage['time'];
+    var config = {
+      apiKey: "AIzaSyCHEXfXqYbp6SrVkGQaqD8M7qS6OjbOvKk",
+      authDomain: "meeting-room-booking-106bb.firebaseapp.com",
+      databaseURL: "https://meeting-room-booking-106bb-default-rtdb.firebaseio.com",
+      projectId: "meeting-room-booking-106bb",
+      storageBucket: "meeting-room-booking-106bb.appspot.com",
+      messagingSenderId: "282229579896",
+      appId: "1:282229579896:web:2c78db0e1a646fb0ad8d8d",
+      measurementId: "G-XB6S8K34QE"
+    };
+    firebase.initializeApp(config);
+    var roomList = [];
+    var date1 = localStorage['date'];
+    var x = display_ct7();
+    loadData();
+
+
+    // var date = new Date(document.getElementById('dateselect').value);
+    // var date1 = ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + '-' + ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '-' + date.getFullYear();
+    // localStorage['date'] = date1;
+
+
+    //default which will check timeslot available for today (not including booked data)
+    function validateTime(roomList) {
+      var today = localStorage['today'];
+      var time = localStorage['time'];
+      if (document.getElementById('dateselect').value == today) {
+        for (var roomIndex = 0; roomIndex < roomList.length; roomIndex++) {
+          console.log(roomList[roomIndex]);
+          var tempTimeList = roomList[roomIndex].getTimeList();
+          var tempAvailableTime = roomList[roomIndex].getAvailableTime();
+          tempAvailableTime.pop(); //pop last time 17:30
+
+
+          for (var i = 0; i < tempTimeList.length - 1; i++) {
+            if (tempTimeList[i] <= time) {
+              console.log(tempTimeList[i] + " passed");
+              tempAvailableTime.splice(tempAvailableTime.indexOf(tempTimeList[i]), 1);
+            }
+
+          }
+          roomList[roomIndex].setAvailableTime(tempAvailableTime);
+
+        }
+
+      }
+      // else{
+      //   for (var roomIndex = 0; roomIndex < roomList.length; roomIndex++) {
+      //     console.log(roomList[roomIndex]);
+      //     var tempAvailableTime = roomList[roomIndex].getAvailableTime();
+      //     tempAvailableTime.pop(); //pop last time 17:30
+
+      //     roomList[roomIndex].setAvailableTime(tempAvailableTime);
+      //   }
+      // }
+      console.log(roomList);
+      localStorage.setItem('roomList', JSON.stringify(roomList));
+
+      setTimeout(function () {
+        passDate(roomList);
+      }, 500);
+    }
+
+    //check timeslot in the database
+    function passDate(roomList) {
+      var today = localStorage['today'];
+      var query = firebase.database().ref().child('meeting').child(date1);
+      console.log("here");
+
+      query.once("value", snapshot => {
+        snapshot.forEach(child => {
+          // console.log("here1");
+          var childData = child.key;
+          var query1 = query.child(childData);
+          query1.once("value", snapshot => {
+            snapshot.forEach(child1 => {
+              // console.log("here2");
+              var tempRoomList = [...roomList];
+              for (var i = 0; i < roomList.length; i++) {
+                if (roomList[i].getId() == child1.key) {
+                  var time = localStorage['time'];
+                  var usedTime = child1.child("time").val();
+                  var roomAvailableTime = [...roomList[i].getAvailableTime()];
+                  var start = child1.child("time").child("0").val();
+                  var end = [...usedTime].pop();
+                  console.log(start);
+                  console.log(end);
+                  // if (start < time && end < time) {
+                  //   return;
+                  // }
+                  // else if(start < time && end > time){
+
+                  // }
+                  // else {
+                  // console.log(roomList[i].getAvailableTime());
+                  // console.log(child1.child("time").val());
+                  // console.log(roomAvailableTime);
+                  if (document.getElementById('dateselect').value == today) {
+                    if (start < time && end < time) {
+                      return;
+                    }
+                    else {
+                      for (var j = 0; j < usedTime.length - 1; j++) {
+                        if(usedTime[j] < time){
+                          continue;
+                        }
+                        roomAvailableTime.splice(roomAvailableTime.indexOf(usedTime[j]), 1)
+                      }
+                    }
+                  }
+                  else {
+                    for (var j = 0; j < usedTime.length - 1; j++) { //splice number dy no validation
+                      roomAvailableTime.splice(roomAvailableTime.indexOf(usedTime[j]), 1)
+                    }
+                  }
+                  roomList[i].setAvailableTime(roomAvailableTime);
+
+                  // if (roomAvailableTime.length == 0) {
+                  //   tempRoomList.splice(tempRoomList.indexOf(roomList[i]), 1);
+                  // }
+                  // console.log(roomList[i].getId() + ": " + roomList[i].getAvailableTime());
+                  // }
+                }
+              }
+              roomList = tempRoomList;
+              // console.log("here");
+            });
+            localStorage.setItem('roomList', JSON.stringify(roomList));
+          });
+        });
+      })
+    }
+
+    function redirectFunction1() {
+      window.location.href = ("roombooking.html");
+    }
+
+    function storeroomID(id) {
+      localStorage.roomID = id;
+      redirectFunction1();
+    }
+
+    class Room {
+      constructor(name, venue, src_image, maxCap, id) {
+        this.name = name;
+        this.venue = venue;
+        this.src_image = src_image;
+        this.maxCap = maxCap;
+        this.id = id;
+        this.availableTime = [];
+      }
+
+      getId() {
+        return this.id;
+      }
+
+      setAvailableTime(availableTime) {
+        this.availableTime = availableTime
+      }
+
+      getAvailableTime() {
+        return this.availableTime;
+      }
+
+      setTimeList(timeList) {
+        this.timeList = timeList;
+      }
+
+      getTimeList() {
+        return this.timeList;
+      }
+    }
+
+    class time {
+      constructor(time) {
+        this.time = time;
+      }
+    }
+
+    function loadData() {
+      localStorage.removeItem("roomList");
+      var date = new Date(document.getElementById('dateselect').value);
+      var date1 = ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + '-' + ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '-' + date.getFullYear();
+      localStorage['date'] = date1;
+      var query = firebase.database().ref().child('room');
+      query.once("value", snapshot => {
+        roomList = [];
+        var count = snapshot.numChildren();
+        var index = 0;
+        snapshot.forEach((child) => {
+          var childData = child.key;
+          var query2 = query.child(childData);
+          query2.once("value", snapshot => {
+            index++;
+            var tempRoom = new Room(
+              snapshot.child('name').val(),
+              snapshot.child('venue').val(),
+              snapshot.child('src_image').val(),
+              snapshot.child('maxCap').val(),
+              snapshot.child('id').val()
+            );
+            availableTime = [];
+            snapshot.child('availableTime').forEach(snap => {
+              availableTime.push(snap.val());
+            });
+
+            tempRoom.setAvailableTime(availableTime);
+            tempRoom.setTimeList([...availableTime]);
+
+            // console.log(roomList);
+
+            roomList.push(tempRoom);
+            // console.log(roomList);
+            if (index == count) {
+              validateTime(roomList);
+              setTimeout(function () {
+                var roomList1 = JSON.parse(localStorage['roomList']);
+                console.log(roomList1);
+                var htmlElements = "";
+                for (var i = 0; i < roomList1.length; i++) {
+                  if (roomList1[i].availableTime.length == 0) {
+                    console.log("here");
+                    continue;
+                  }
+                  // if (roomList1[i].availableTime.length == 0) {
+                  //   console.log("no meeting");
+                  //   htmlElements = '<div class = "container" style = "box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; border-radius: 10px;">' +
+                  //     '<h2><strong> No Rooms Available </strong></h2>' +
+                  //     '</div>'
+                  // }
+                  else {
+                    console.log("display");
+                    htmlElements += '<div>' + '<br>' +
+                      '<div id = "' + roomList1[i].id + '" class="row" onClick = \'storeroomID(id);\' style="cursor: pointer; justify-content: center; border-radius: 10px;">' +
+                      '<div class = "col-5" style="padding: inherit; max-width: 600px; max-height: 250px; overflow:hidden; border-radius: 10px; box-shadow: rgb(0 0 0 / 35%) -4px 0px 5px -2px;">' +
+                      '<img src="' + roomList1[i].src_image + '"style="width: 543px; height:400px; object-fit: cover; border-radius: 10px 0 0 10px; margin-top: -70px;">' +
+                      '</div>' +
+                      '<div class = "col-4" style="padding: inherit; margin-left: -70px;">' +
+                      '<div class="text-block" style="border-radius: 0 10px 10px 0;" >' +
+                      '<div style="display: flex;justify-content: center; align-items: center;height: 100%; flex-basis: auto;flex-direction: column; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; border-radius: 0 10px 10px 0;">' +
+                      '<h2><strong>' + roomList1[i].name + '</strong></h2>' +
+                      '<h2><strong> Venue: ' + roomList1[i].venue + '</strong></h2>' +
+                      '<h2><strong> Max Capacity: ' + roomList1[i].maxCap + '</strong></h2>' +
+                      '</div>' +
+                      '</div>' +
+                      '</div>' +
+                      '</div>'
+                  }
+                }
+                var container = document.getElementById("main_container");
+                container.innerHTML = htmlElements;
+              }, 1000);
+
+            }
+          })
+        });
+      })
+    }
+
+    function display_ct7() {
+      var x = new Date()
+
+      hours = x.getHours();
+      hours = hours.toString().length == 1 ? 0 + hours.toString() : hours;
+
+      var minutes = x.getMinutes().toString()
+      minutes = minutes.length == 1 ? 0 + minutes : minutes;
+
+      var minutes = x.getMinutes().toString()
+      minutes = minutes.length == 1 ? 0 + minutes : minutes;
+
+      var month = (x.getMonth() + 1).toString();
+      month = month.length == 1 ? 0 + month : month;
+
+      var dt = x.getDate().toString();
+      dt = dt.length == 1 ? 0 + dt : dt;
+
+      var x1 = x.getFullYear() + "-" + month + "-" + dt;
+      var time = hours + ":" + minutes;
+      document.getElementById('dateselect').value = x1;
+      document.getElementById('dateselect').min = x1;
+      // console.log(time);
+      localStorage['time'] = time;
+      localStorage['today'] = x1;
+    }
+
+  </script>
+
+</body>
+
+</html>

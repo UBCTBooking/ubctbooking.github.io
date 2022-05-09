@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Forget Password Page</title>
+  <link rel="icon" href="UBCT 2021 Apr LOGO_33x32.jpg">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
+    integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <script src="https://www.gstatic.com/firebasejs/5.0.1/firebase.js"></script>
+</head>
+<style>
+  input[type=text],
+  input[type=password] {
+    border-radius: 10px;
+    background-color: #f0f1f1;
+    color: rgb(8, 6, 6);
+    width: 85%;
+    padding: 18px 15px;
+    margin: 8px 0;
+    display: inline-block;
+    border: none;
+    box-sizing: border-box;
+    font-size: 16px;
+    height: 40px;
+  }
+
+  body {
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100vh;
+  }
+
+  button {
+    border-radius: 10px;
+    background-color: #070808;
+    color: white;
+    padding: 18px 15px;
+    margin: -10px 0;
+    border: none;
+    cursor: pointer;
+    width: 85%;
+    font-size: 12px;
+  }
+
+  button:hover {
+    opacity: 0.8;
+  }
+
+  h1 {
+    text-align: center;
+    font-family: verdana;
+    font-size: 30px;
+    line-height: 45px;
+  }
+
+  h2 {
+    text-align: center;
+    font-family: 'verdana';
+    font-size: 14px;
+    margin: 10px 0;
+    line-height: 0px;
+  }
+
+
+  .container {
+    text-align: center;
+    padding: 9px;
+  }
+
+  .container1 {
+    text-align: left;
+    padding-left: 12px;
+    /* padding: 16px;
+  padding-left: 34% ; */
+  }
+
+  #main_container2 {
+    display: block;
+    text-align: left;
+    padding: 16px;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    background-color: white;
+    z-index: 1002;
+    overflow: auto;
+    max-height: 400px;
+    width: 500px;
+    margin: -100px 0 0 -150px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 10px;
+  }
+
+  span.psw {
+    float: center;
+    text-align: center;
+    padding-top: 16px;
+    margin: 3px 0;
+    font-size: 11px;
+    /* font-weight: bold; */
+  }
+
+  span.alert {
+    float: center;
+    text-align: center;
+    /* padding-top: 16px; */
+    margin: 3px 0;
+  }
+
+  .arrow {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+  }
+
+  .left {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+  }
+
+  .customValidation {
+    color: red;
+    font-size: 14px;
+    /* display: none; */
+  }
+
+  .customValidation1 {
+    color: green;
+    font-size: 14px;
+    /* display: none; */
+  }
+</style>
+
+
+<body>
+
+  <div class="row" style="justify-content: center;">
+    <div class="container col-3" style="box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; border-radius: 10px;">
+      <div class="container1">
+        <br><br>
+        <a href="index.html" style="color:black; font-size: 14px;"><i class="arrow left"></i> Sign In</a>
+      </div>
+      <br>
+      <h1><strong>Forget Password?</strong></h1>
+      <h2><strong>Recover your account easily</strong></h2>
+      <div class="container">
+        <img src="UBCT 2021 Apr LOGO.png" style="height: 200px; width: 200px;">
+      </div>
+      <form class="needs-validation" novalidate onsubmit="forgotten()" action="">
+        <div class="container">
+          <input type="text" placeholder="Email" name="email" id="email" required>
+          <br>
+          <br>
+          <span class="customValidation" id="validation" style="display: none;">Account not found, please check
+            again</span>
+          <span class="customValidation1" id="validation1" style="display: none;">Recovery email has been sent</span>
+          <span class="psw"> A recovery email will be sent to your email in 5 minutes</span>
+          <br><br>
+        </div>
+
+        <div class="container">
+          <button class="button" type="submit">Continue</button>
+        </div>
+        <br><br><br>
+      </form>
+    </div>
+  </div>
+
+</body>
+
+<script>
+
+  var config = {
+    apiKey: "AIzaSyCHEXfXqYbp6SrVkGQaqD8M7qS6OjbOvKk",
+    authDomain: "meeting-room-booking-106bb.firebaseapp.com",
+    databaseURL: "https://meeting-room-booking-106bb-default-rtdb.firebaseio.com",
+    projectId: "meeting-room-booking-106bb",
+    storageBucket: "meeting-room-booking-106bb.appspot.com",
+    messagingSenderId: "282229579896",
+    appId: "1:282229579896:web:2c78db0e1a646fb0ad8d8d",
+    measurementId: "G-XB6S8K34QE"
+  };
+  firebase.initializeApp(config);
+
+  function forgotten() {
+    event.preventDefault();
+    var userEmail = document.getElementById("email").value;
+    if (userEmail == "") {
+      return;
+    }
+    else {
+      var query = firebase.database().ref().child('account');
+      query.orderByChild('email').equalTo(userEmail).on('value', function (snapshot) {
+        console.log(snapshot.val());
+        if (snapshot.val() == null) {
+          document.getElementById("validation").style.display = "block";
+          return;
+        }
+        else {
+          snapshot.forEach(snapshot => {
+            console.log(snapshot.key);
+            var key = snapshot.key
+            query.child(key).once("value", snapshot => {
+              var email = snapshot.child('email').val();
+              var id = snapshot.child('id').val();
+              var token = snapshot.child('token').val();
+              document.getElementById("validation1").style.display = "block";
+              sendForgettenEmail(email, key, token);
+            })
+          });
+        }
+
+      })
+
+    }
+  }
+
+  async function sendForgettenEmail(email, id, token) {
+    var formData = new FormData();
+    formData.append('email', email);
+    formData.append('id', id);
+    formData.append('token', token);
+
+    var response = await fetch('http://192.168.0.170/MRB/API/sendForgetEmail.php', {
+      method: "POST",
+      body: formData
+    });
+    var data = await response.json();
+    console.log(data);
+  }
+
+</script>

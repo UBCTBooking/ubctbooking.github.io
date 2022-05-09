@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Login Page</title>
+  <link rel="icon" href="UBCT 2021 Apr LOGO_33x32.jpg">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/core.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/md5.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+
+  <script src="https://www.gstatic.com/firebasejs/5.0.1/firebase.js"></script>
+
+</head>
+<style>
+  input[type=text],
+  input[type=password] {
+    border-radius: 10px;
+    background-color: #f0f1f1;
+    color: rgb(8, 6, 6);
+    width: 80%;
+    padding: 18px 15px;
+    margin: 8px 0;
+    display: inline-block;
+    border: none;
+    box-sizing: border-box;
+    font-size: 16px;
+    height: 40px;
+  }
+
+  body {
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100vh;
+
+  }
+
+  button {
+    border-radius: 10px;
+    background-color: #070808;
+    color: white;
+    padding: 18px 15px;
+    margin: -10px 0;
+    border: none;
+    cursor: pointer;
+    width: 80%;
+    font-size: 12px;
+  }
+
+  button:hover {
+    opacity: 0.8;
+  }
+
+  h1 {
+    text-align: center;
+    font-family: verdana;
+    font-size: 30px;
+    line-height: 35px;
+  }
+
+  h2 {
+    text-align: center;
+    font-family: verdana;
+    font-size: 14px;
+    margin: 10px 0;
+    line-height: 0px;
+  }
+
+  .container {
+    text-align: center;
+    padding: 8px;
+  }
+
+  #container1 {
+    text-align: center;
+    padding: 16px;
+  }
+
+  span.psw {
+    padding-top: 16px;
+    margin: 3px 0;
+    font-size: 13px;
+  }
+
+  span.alert {
+    float: center;
+    text-align: center;
+    padding-top: 16px;
+    margin: 3px 0;
+  }
+
+  span.pst {
+    padding-top: 16px;
+    margin: 3px 0;
+    font-size: 13px;
+  }
+
+  .customValidation {
+    color: red;
+    font-size: 14px;
+    /* display: none; */
+  }
+</style>
+
+<body>
+  <div class="row" style="justify-content: center;">
+    <div class="container1 col-3" style="box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; border-radius: 10px;">
+      <br><br><br>
+      <h1><strong>Welcome Back!</strong></h1>
+      <h2><strong>Sign in to your account</strong></h2>
+      <div class="container">
+        <img src="UBCT 2021 Apr LOGO.png" style="height: 200px; width: 200px;">
+      </div>
+      <form class="needs-validation" novalidate onsubmit="login();" action="">
+        <div class="container">
+          <input type="text"  placeholder="Email" name="email" id="email" required>
+          <br>
+          <input type="password" placeholder="Password" name="psw" id="psw" required maxlength="25" style="margin-left: -15px;">
+          <i class="far fa-eye" id="togglePassword" style="margin-left: -30px; cursor: pointer;"></i>
+          <!-- <div class="invalid-feedback" style="font-size: 14px">
+            Please fill in the details
+          </div> -->
+          <span class="customValidation" id="validation" style="display: none;"> Invalid username or password</span>
+          <span class="customValidation" id="validation1" style="display: none;">Please verify your account</span>
+          <br>
+          <span class="psw"><a href="forgetpass.html" style="color: black">Forget Password?</a></span>
+        </div>
+
+        <div class="container">
+          <button class="button" type="submit">Continue</button>
+        </div>
+
+        <div class="container">
+          <span class="pst">Don't have an account? <a href="SignUp.html" style="color: black">Sign Up</a></span>
+        </div>
+        <br>
+      </form>
+    </div>
+  </div>
+
+  <script>
+
+    const togglePassword = document.querySelector('#togglePassword');
+    const password = document.querySelector('#psw');
+
+    togglePassword.addEventListener('click', function (e) {
+      // toggle the type attribute
+      const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+      password.setAttribute('type', type);
+      // toggle the eye slash icon
+      this.classList.toggle('fa-eye-slash');
+    });
+    
+    (function () {
+      'use strict';
+      window.addEventListener('load', function () {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function (form) {
+          form.addEventListener('submit', function (event) {
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+          }, false);
+        });
+      }, false);
+    })();
+    // Initialize Firebase
+    // TODO: Replace with your project's customized code snippet
+    var config = {
+      apiKey: "AIzaSyCHEXfXqYbp6SrVkGQaqD8M7qS6OjbOvKk",
+      authDomain: "meeting-room-booking-106bb.firebaseapp.com",
+      databaseURL: "https://meeting-room-booking-106bb-default-rtdb.firebaseio.com",
+      projectId: "meeting-room-booking-106bb",
+      storageBucket: "meeting-room-booking-106bb.appspot.com",
+      messagingSenderId: "282229579896",
+      appId: "1:282229579896:web:2c78db0e1a646fb0ad8d8d",
+      measurementId: "G-XB6S8K34QE"
+    };
+    firebase.initializeApp(config);
+
+    function login() {
+      localStorage.clear();
+      event.preventDefault();
+      var userEmail = document.getElementById("email").value;
+      var userPass = document.getElementById("psw").value;
+      // var acc = firebase.database().ref().child('account');
+      // var ref = firebase.database().ref().child('account');
+
+      if (userEmail == "" || userPass == "") {
+        document.getElementById("validation").style.display = "none";
+        document.getElementById("validation1").style.display = "none";
+        return;
+      }
+      else {
+        var query = firebase.database().ref().child('account');
+        query.orderByChild('email').equalTo(userEmail).on('value', function (snapshot) {
+          document.getElementById("validation").style.display = "none";
+          document.getElementById("validation1").style.display = "none";
+          // console.log(snapshot.val());
+          if (snapshot.val() == null) {
+            document.getElementById("validation").style.display = "block";
+            return;
+          }
+
+          snapshot.forEach(snapshot => {
+            localStorage['myKey'] = (snapshot.key);
+            var alldata = snapshot.val();
+            var email = alldata['email'];
+            localStorage['email'] = email;
+            localStorage['username'] = alldata['username'];
+            if (alldata['activated'] == "False") {
+              document.getElementById("validation1").style.display = "block";
+              return;
+            }
+            else {
+              if (alldata['password'] == (CryptoJS.MD5(alldata['token'] + "" + userPass).toString())) {
+                window.location.href = "home.html";
+                return;
+              }
+              else {
+                // console.log("hiii");
+                document.getElementById("validation").style.display = "block";
+                return;
+              }
+            }
+          });
+        });
+
+
+      }
+    }
+  </script>
+
+</body>
+
+</html>

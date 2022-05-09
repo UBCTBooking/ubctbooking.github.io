@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+  <title>Edit Meeting</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
+
+  <script src="https://www.gstatic.com/firebasejs/5.0.1/firebase.js"></script>
+</head>
+
+<style>
+  input[type=text] {
+    border-radius: 10px;
+    background-color: #f0f1f1;
+    color: rgb(8, 6, 6);
+    /* width: 75%; */
+    padding: 18px 15px;
+    display: inline-block;
+    border: none;
+    box-sizing: border-box;
+    font-size: 16px;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100vh;
+    padding-left: 160px;
+  }
+
+  button {
+    border-radius: 10px;
+    background-color: #070808;
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: 85%;
+    height: 50px;
+  }
+
+  .btn1 {
+    background-color: white;
+    border: none;
+    color: rgb(14, 11, 11);
+    padding: 15px 15px;
+    margin: -10px 0;
+    border: none;
+    cursor: pointer;
+    width: 13%;
+    padding-left: 3%;
+  }
+
+  #button0 {
+    background-color: rgb(14, 11, 11);
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: inline-grid;
+  }
+
+  .material-icons1 {
+    font-size: 50px;
+  }
+
+  button:hover {
+    opacity: 0.8;
+  }
+
+  h1 {
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 30px;
+    line-height: 35px;
+  }
+
+  h2 {
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 17px;
+    margin: 10px 0;
+    line-height: 10px;
+  }
+
+  h3 {
+    text-align: left;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 40px;
+    margin: 10px 0;
+    line-height: 0px;
+    font-weight: 1000;
+  }
+
+  h4 {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 20px;
+    line-height: 25px;
+    text-align: center;
+  }
+
+  .container {
+    text-align: left;
+    padding: 16px;
+    padding-left: 2%;
+  }
+
+  .container2 {
+    text-align: left;
+    padding: 3px;
+    border-style: groove;
+    position: relative;
+    display: flex;
+  }
+
+
+  #con1 {
+    display: flex;
+    text-align: left;
+    padding: 16px;
+    padding-left: 3%;
+    justify-content: center;
+  }
+
+  #con2 {
+    display: block;
+    padding: 16px;
+    position: absolute;
+    right: 0px;
+    width: 400px;
+    height: 100%;
+    /* border-left-style: solid; */
+  }
+
+  #container1 {
+    text-align: center;
+    padding: 16px;
+  }
+
+  span.psw {
+    /* float: center; */
+    text-align: center;
+    padding-top: 16px;
+    margin: 3px 0;
+    padding-left: 0%;
+    font-size: 16px;
+  }
+
+  .sidebar {
+    height: 100%;
+    width: 160px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgb(24, 19, 19);
+    overflow-x: hidden;
+    padding-top: 16px;
+    cursor: pointer;
+  }
+
+  .sidebar a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #ffffff;
+    display: block;
+  }
+
+  .sidebar a:hover {
+    color: RoyalBlue;
+  }
+
+  .main {
+    margin-left: 160px;
+    /* Same as the width of the sidenav */
+    padding: 0px 10px;
+  }
+
+  @media screen and (max-height: 450px) {
+    .sidebar {
+      padding-top: 15px;
+    }
+
+    .sidebar a {
+      font-size: 18px;
+    }
+  }
+
+  img {
+    border-radius: 50%;
+  }
+
+  .arrow {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+  }
+
+  .left {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+  }
+
+  /* The popup form - hidden by default */
+  .form-popup {
+    border-radius: 20px;
+    display: none;
+    position: fixed;
+    bottom: 0;
+    right: 15px;
+    z-index: 9;
+  }
+
+  /* Add styles to the form container */
+  .form-container {
+    border-radius: 20px;
+    max-width: 400px;
+    max-height: 650px;
+    padding: 10px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 10px;
+    background-color: white;
+  }
+
+  /* Full-width input fields */
+  .form-container input[type=text] {
+    width: 100%;
+    padding: 15px;
+    margin: 0px 0 5px 0;
+    border: none;
+    background: #f1f1f1;
+  }
+
+  /* When the inputs get focus, do something */
+  .form-container input[type=text]:focus {
+    background-color: #ddd;
+    outline: none;
+  }
+
+  .form-container .btn {
+    background-color: black;
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    margin: 12px 0 0px 0;
+    opacity: 0.8;
+    border-radius: 10px;
+    height: 50px;
+    font-size: 12px
+  }
+
+
+  /* Add some hover effects to buttons */
+  .form-container .btn:hover,
+  .open-button:hover {
+    opacity: 1;
+  }
+
+
+  .form-popup {
+    border-radius: 20px;
+    display: none;
+    position: fixed;
+    bottom: 0;
+    right: 15px;
+    z-index: 9;
+  }
+
+  span {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  table {
+    /* border-collapse: separate; */
+    border-spacing: 0 15px;
+  }
+
+  th {
+    color: black;
+
+  }
+
+  th,
+
+  td {
+    width: 150px;
+    /* text-align: center; */
+    /* border: 1px solid black;
+        padding: 5px; */
+  }
+
+  .customValidation {
+    color: red;
+    font-size: 10px;
+    font-family: verdana;
+    /* display: none; */
+  }
+
+  #pic {
+    border-radius: 0%;
+  }
+</style>
+
+<body>
+  <div class="sidebar">
+    <a href="home.html"><i class="material-icons">home</i> Home</a>
+    <a href="calendar.html"><i class="material-icons">insert_invitation</i> Calendar</a>
+    <a href="rooms.html"><i class="material-icons">cloud</i> Rooms</a>
+    <a href="account.html"><i class="material-icons">person</i> Account</a>
+  </div>
+
+  <div class="container">
+    <div class="row" style="justify-content: center;">
+      <div class="container1 col-5" style="box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; border-radius: 10px;">
+        <div class="container">
+          <a href="home.html" style="color:black; font-size: 16px;"><i class="arrow left"></i> Home</a>
+        </div>
+
+        <div class="container">
+          <h1><strong>Meeting Details</strong></h1>
+        </div>
+
+        <div class="container">
+          <img src="" id="pic" style="min-width: 100%; min-height: 250px; max-width:100%; max-height: 250px">
+          <br><br>
+          <label for="title" style="font-size: 16px;">Title</label><br>
+          <input type="text" class="form-control" placeholder="Title Of Meeting" name="title" id="title">
+          <br><br>
+          <i class="material-icons">&#xe0c8;</i>
+          <span id="venue" class="psw"> -- </span>
+          <br><br>
+          <label for="desc" style="font-size: 16px;">Description</label><br>
+          <input type="text" class="form-control" placeholder="Description of Meeting" name="desc" id="description">
+        </div>
+
+        <div class="container" id="container1">
+          <div class="row">
+            <div class="col-4">
+              <h4><b>Date</b></h4>
+              <span id="date">--</span>
+            </div>
+            <div class="col-4">
+              <h4><b>Start</b></h4>
+              <span id="firstTime">--</span>
+            </div>
+            <div class="col-4">
+              <h4><b>End</b></h4>
+              <span id="lastTime">--</span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <span class="customValidation" id="validation" style="display: none; text-align: center;"> Please ensure
+            everything is filled</span>
+        </div>
+
+        <div class="container" id="main_container">
+          <label style="font-size: 16px;">Participants</label><br>
+          <button type="Submit" style="border-radius: 50%; max-width: 50px; max-height: 50px;" id="button0"
+            onclick="openFormadd()"><i class="material-icons"> person_add</i>Add</button>
+        </div>
+
+        <div class="container1" id="con1">
+          <button onclick="savedetails();" id="save" type="Submit">Save</button>
+          <btn onclick="successRemove();" class="btn1"><i class="material-icons"
+              style="font-size:40px;">&#xe872</i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-popup" id="myForm">
+    <div class="form-container">
+      <!-- <img src ="dummy-profile-pic.png" for="file" style="cursor: pointer; max-width: 100px; max-height: 100px;"> -->
+      <!-- <p><label for="file" style="cursor: pointer;">Upload Image</label></p> -->
+      <br>
+      <div style="text-align: center;">
+        <input type="file" accept="image/gif, image/jpeg, image/png" name="image" id="file" onchange="loadFile(event)"
+          style="display: none;">
+        <img id="output" src="dummy-profile-pic.png" style="max-width:100px; max-height: 100px">
+        <span class="glyphicon glyphicon-edit fa-3x" style="position: absolute; top: 30px; left: 230px; "></span>
+        <p><label for="file" style="cursor: pointer;">Upload Image</label></p>
+      </div>
+
+      <label for="Name" style="font-size: 16px;">Company</label>
+      <input type="text" class="form-control" placeholder="Enter Company" name="company" id="company">
+
+      <label for="Email" style="font-size: 16px;">Email</label>
+      <input type="text" class="form-control" placeholder="Enter Email" name="email" id="email">
+
+      <label for="Company" style="font-size: 16px;">Name</label>
+      <input type="text" class="form-control" placeholder="Enter Name" name="name" id="name">
+
+      <label for="Role" style="font-size: 16px;">Role</label>
+      <input type="text" class="form-control" placeholder="Enter Role" name="role" id="role">
+
+      <span class="customValidation" id="validation1" style="display: none; text-align: center;"> Please ensure
+        everything is filled</span>
+      <button id="add" type="submit" class="btn" onclick="addParticipants()">Save</button>
+      <button id="edit" type="button" class="btn" onclick="edit1()">Save</button>
+      <button id="delete" type="button" class="btn" onclick="del()">Delete</button>
+      <button type="button" class="btn" onclick="closeForm()">Close</button>
+    </div>
+  </div>
+
+  <script>
+    function openFormadd() {
+      document.getElementById("myForm").style.display = "block";
+      document.getElementById("add").style.display = "block";
+      document.getElementById("edit").style.display = "none";
+      document.getElementById("delete").style.display = "none";
+
+      document.getElementById("name").value = "";
+      document.getElementById("email").value = "";
+      document.getElementById("company").value = "";
+      document.getElementById("role").value = "";
+      document.getElementById("output").src = "dummy-profile-pic.png";
+    }
+
+    function openFormedit() {
+      document.getElementById("myForm").style.display = "block";
+      document.getElementById("add").style.display = "none";
+      document.getElementById("edit").style.display = "block";
+      document.getElementById("delete").style.display = "block";
+    }
+
+    document.getElementById("validation").style.display = "none";
+    document.getElementById("validation1").style.display = "none";
+
+    function closeForm() {
+      document.getElementById("myForm").style.display = "none";
+    }
+
+  </script>
+
+  <script>
+    var participantsList = [];
+    var participantsTempList = [];
+    var config = {
+      apiKey: "AIzaSyCHEXfXqYbp6SrVkGQaqD8M7qS6OjbOvKk",
+      authDomain: "meeting-room-booking-106bb.firebaseapp.com",
+      databaseURL: "https://meeting-room-booking-106bb-default-rtdb.firebaseio.com",
+      projectId: "meeting-room-booking-106bb",
+      storageBucket: "meeting-room-booking-106bb.appspot.com",
+      messagingSenderId: "282229579896",
+      appId: "1:282229579896:web:2c78db0e1a646fb0ad8d8d",
+      measurementId: "G-XB6S8K34QE"
+    };
+    firebase.initializeApp(config);
+
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+    today = yyyy + '-' + mm + '-' + dd;
+
+    class participants {
+      constructor(company, email, imgSrc, name, role, token) {
+        this.company = company;
+        this.email = email;
+        this.imgSrc = imgSrc;
+        this.name = name;
+        this.role = role;
+        this.token = token;
+      }
+    }
+
+
+    function checkTime(i) {
+      if (i < 10) {
+        i = "0" + i;
+      }
+      return i;
+    }
+
+    // var z = 1;
+    // var storageRef = firebase.storage().ref();
+    // var ref = storageRef.child('images').child('image' + (z++));
+    // var file = document.getElementById("file").files[0];
+    var x = new Date();
+    var h = x.getHours();
+    var m = x.getMinutes();
+    h = checkTime(h);
+    m = checkTime(m);
+    var x1 = h + ":" + m;
+
+
+
+    var path = localStorage['stored'];
+    var query = firebase.database().ref().child('meeting').child(path);
+    query.once("value", snapshot => {
+      localStorage.storeid = snapshot.child("id").val();
+      localStorage.roomid = snapshot.child("roomId").val();
+      var venue = snapshot.child("name").val();
+      var date = snapshot.child('meetingPath').val().substring(0, 10);
+      var count = snapshot.child("time").numChildren();
+      var firstTime = snapshot.child("time").child("0").val();
+      var lastTime = snapshot.child("time").child(count - 1).val();
+      var title = snapshot.child("title").val();
+      var desc = snapshot.child("description").val();
+      var roomID = snapshot.child("roomId").val();
+      document.getElementById("venue").innerHTML = venue;
+      document.getElementById("date").innerHTML = date;
+      document.getElementById("firstTime").innerHTML = firstTime;
+      document.getElementById("lastTime").innerHTML = lastTime;
+      document.getElementById("title").value = title;
+      document.getElementById("description").value = desc;
+      var pattern = /(\d{2})\-(\d{2})\-(\d{4})/;
+      var dt = new Date(date.replace(pattern, '$3-$2-$1') + ' ' + firstTime);
+      var newtoday = new Date(today + ' ' + x1);
+      if (newtoday.getTime() > dt.getTime()) {
+          document.getElementById("title").disabled = true;
+          document.getElementById("description").disabled = true;
+          document.getElementById("button0").disabled = true;
+          document.getElementById("button0").style.display = "none";
+          document.getElementById("save").disabled = true;
+          document.getElementById("add").disabled = true;
+          document.getElementById("edit").disabled = true;
+          document.getElementById("delete").disabled = true;
+          document.getElementById("company").disabled = true;
+          document.getElementById("email").disabled = true;
+          document.getElementById("name").disabled = true;
+          document.getElementById("role").disabled = true;
+          document.getElementById("file").disabled = true;
+      }
+      else {
+        // document.getElementById("title").disabled = false;
+        // document.getElementById("description").disabled = false;
+        // document.getElementById("button0").disabled = false;
+        // document.getElementById("save").disabled = false;
+        // document.getElementById("add").disabled = false;
+        // document.getElementById("edit").disabled = false;
+        // document.getElementById("delete").disabled = false;
+        // document.getElementById("company").disabled = false;
+        // document.getElementById("email").disabled = false;
+        // document.getElementById("name").disabled = false;
+        // document.getElementById("role").disabled = false;
+        // document.getElementById("file").disabled = false;
+      }
+
+
+      var query1 = firebase.database().ref().child('room').child(roomID);
+      query1.once("value", snapshot => {
+        var img = snapshot.child("src_image").val();
+        document.getElementById("pic").src = img;
+      })
+    })
+
+    query.child('participants').once("value", snapshot => {
+      snapshot.forEach((snap) => {
+        var count = snapshot.numChildren();
+        var childData = snap.val();
+        // console.log(childData);
+        var data1 = snap.child("company").val();
+        var data2 = snap.child("email").val();
+        var data3 = snap.child("imgSrc").val();
+        var data4 = snap.child("name").val();
+        var data5 = snap.child("role").val();
+        var data6 = snap.child("token").val();
+        var x = new participants(
+          data1,
+          data2,
+          data3,
+          data4,
+          data5,
+          data6
+        );
+        participantsList.push(x);
+      });
+      var htmlElements = "";
+      for (var i = 0; i < participantsList.length; i++) {
+        // console.log(participantsList[i]);
+        htmlElements += '<img src=' + participantsList[i].imgSrc + ' style ="border-radius: 50%; min-width: 50px; min-height: 50px; max-width: 50px; max-height: 50px; cursor: pointer; margin: 2px;" id="' + participantsList[i].token + '" onclick=\'ezedit(id);\'>'
+      }
+      var container = document.getElementById("main_container");
+      container.innerHTML += htmlElements;
+    })
+
+    // if (participantsList.length + participantsTempList.length > 10) {
+    //   document.getElementById("button0").disabled = true;
+    // }
+
+
+  </script>
+
+  <script>
+    function savedetails() {
+      var title = document.getElementById("title").value;
+      var desc = document.getElementById("description").value;
+      var path = localStorage['stored'];
+      var query = firebase.database().ref().child('meeting').child(path);
+
+      if (title == "" || desc == "") {
+        document.getElementById("validation").style.display = "block";
+        return;
+      }
+
+      query.once("value", snapshot => {
+        localStorage.storeid = snapshot.child("id").val();
+        localStorage.roomid = snapshot.child("roomId").val();
+        var email = localStorage['email'];
+        var host = localStorage['username'];
+        var venue = snapshot.child("venue").val();
+        var date = snapshot.child('meetingPath').val().substring(0, 10);
+        var firstTime = snapshot.child("time").child("0").val();
+        var count = snapshot.child("time").numChildren();
+        var lastTime = snapshot.child("time").child(count - 1).val();
+        var datetime = date + " " + firstTime + " - " + lastTime;
+
+        for (i = 0; i < participantsTempList.length; i++) {
+          var participantEmail = participantsTempList[i].email;
+          var username = participantsTempList[i].name;
+          var token = participantsTempList[i].token;
+          sendParticipantEmail(participantEmail, path, username, title, datetime, host, email, venue, token);
+        }
+        //   for(i = 0; i < participantsTempList.length; i++)
+        //   {
+        //     participantsList.push(participantsTempList[i]);
+        //   }
+        // console.log(participantsTempList);
+
+        firebase.database().ref('meeting/' + path + "/title").set(title);
+        firebase.database().ref('meeting/' + path + "/description").set(desc);
+        firebase.database().ref('meeting/' + path + "/participants").set(participantsList);
+        // window.location.href = ("home.html");
+      })
+    }
+
+    async function sendParticipantEmail(participantEmail, path, username, title, datetime, host, email, venue, token) {
+      var formData = new FormData();
+      formData.append('email', participantEmail);
+      formData.append('src', path);
+      formData.append('username', username);
+      formData.append('title', title);
+      formData.append('datetime', datetime);
+      formData.append('host', host);
+      formData.append('hostEmail', email);
+      formData.append('location', venue);
+      formData.append('token', token);
+
+      var response = await fetch('http://192.168.0.170/MRB/API/sendParticipantEmail.php', {
+        method: "POST",
+        body: formData
+      });
+      var data = await response.json();
+      console.log(data);
+    }
+
+    function addParticipants() {
+      var name = document.getElementById("name").value;
+      var email = document.getElementById("email").value;
+      var company = document.getElementById("company").value;
+      var role = document.getElementById("role").value;
+      var newtoken = generateToken();
+      var htmlElements = "";
+
+      var storageRef = firebase.storage().ref();
+      var ref = storageRef.child('images').child('image' + (newtoken));
+      var file = document.getElementById("file").files[0];
+
+      if (name == "" || email == "" || company == "" || role == "" || file == "") {
+        document.getElementById("validation1").style.display = "block";
+        return;
+      }
+
+      ref.put(file).then((snapshot) => {
+        console.log('Uploaded a blob or file!');
+        snapshot.ref.getDownloadURL().then(function (downloadURL) {
+          console.log(downloadURL);
+          var x = new participants(company, email, downloadURL, name, role, newtoken);
+          var y = new participants(company, email, downloadURL, name, role, newtoken);
+          participantsList.push(x);
+          participantsTempList.push(y);
+          console.log(participantsList);
+          htmlElements += '<img src=' + x.imgSrc + ' style ="border-radius: 50%; min-width: 50px; min-height: 50px; max-width: 50px; max-height: 50px; cursor: pointer; margin: 2px;" id="' + newtoken + '" onclick=\'ezedit(id);\'>'
+          var container = document.getElementById("main_container");
+          container.innerHTML += htmlElements;
+        });
+      });
+      closeForm();
+    }
+
+    function del(id) {
+      for (var i = 0; i < participantsList.length; i++) {
+        var specificID = participantsList[i].token;
+        var data6 = localStorage['detailsid'];
+        if (data6 == specificID) {
+          participantsList.splice(i, 1);
+          document.getElementById(data6).remove();
+        }
+      }
+      del1(id);
+      closeForm();
+    }
+
+    function del1(id) {
+      for (var i = 0; i < participantsTempList.length; i++) {
+        var specificID = participantsTempList[i].token;
+        var data6 = localStorage['detailsid'];
+        if (data6 == specificID) {
+          participantsTempList.splice(i, 1);
+          document.getElementById(data6).remove();
+        }
+      }
+    }
+
+    function ezedit(id) {
+      localStorage.detailsid = id;
+      edit();
+    }
+
+    function edit(id) {
+      for (var i = 0; i < participantsList.length; i++) {
+        var specificID = participantsList[i].token;
+        var unique = localStorage['detailsid'];
+        if (unique == specificID) {
+          var data1 = participantsList[i].company;
+          var data2 = participantsList[i].email;
+          var data3 = participantsList[i].imgSrc;
+          localStorage['parEmail'] = data2;
+          var data4 = participantsList[i].name;
+          var data5 = participantsList[i].role;
+          var data6 = participantsList[i].token;
+          // participantsList.splice(i, 1);
+          // document.getElementById(id).remove();
+          openFormedit();
+          document.getElementById("company").value = data1;
+          document.getElementById("email").value = data2;
+          document.getElementById("output").src = data3;
+          document.getElementById("name").value = data4;
+          document.getElementById("role").value = data5;
+        }
+      }
+    }
+
+    function edit1() {
+      document.getElementById("file").value = '';
+      // var parEmail = document.getElementById("email").value
+      var parEmail = localStorage['parEmail'];
+      var query = firebase.database().ref().child('meeting').child(path).child('participants');
+      closeForm();
+
+      query.orderByChild('email').equalTo(parEmail).on('value', function (snapshot) {
+        console.log(snapshot.val());
+        if (snapshot.val() != null) {
+
+          for (var i = 0; i < participantsList.length; i++) {
+            var specificID = participantsList[i].token;
+            var data6 = localStorage['detailsid'];
+            var newtoken = generateToken();
+            var storageRef = firebase.storage().ref();
+            var ref = storageRef.child('images').child('image' + (newtoken));
+            var file = document.getElementById("file").files[0];
+            var htmlElements = "";
+            if (data6 == specificID) {
+              var data1 = document.getElementById("company").value;
+              var data2 = document.getElementById("email").value;
+              var data3 = document.getElementById("output").src;
+              var data4 = document.getElementById("name").value;
+              var data5 = document.getElementById("role").value;
+              participantsList.splice(i, 1);
+              document.getElementById(data6).remove();
+            }
+          }
+
+          for (var i = 0; i < participantsTempList.length; i++) {
+            var specificID = participantsTempList[i].token;
+            var data6 = localStorage['detailsid'];
+            var newtoken = generateToken();
+            var storageRef = firebase.storage().ref();
+            var ref = storageRef.child('images').child('image' + (newtoken));
+            var file = document.getElementById("file").files[0];
+            var htmlElements = "";
+            if (data6 == specificID) {
+              var data1 = document.getElementById("company").value;
+              var data2 = document.getElementById("email").value;
+              var data3 = document.getElementById("output").src;
+              var data4 = document.getElementById("name").value;
+              var data5 = document.getElementById("role").value;
+              participantsTempList.splice(i, 1);
+            }
+          }
+
+          if (file != null) {
+            ref.put(file).then((snapshot) => {
+              console.log('Uploaded a blob or file!');
+              snapshot.ref.getDownloadURL().then(function (downloadURL) {
+                console.log(downloadURL);
+                var x = new participants(data4, data2, downloadURL, data1, data5, data6);
+                participantsList.push(x);
+                htmlElements += '<img src=' + downloadURL + ' style ="border-radius: 50%; min-width: 50px; min-height: 50px; max-width: 50px; max-height: 50px; cursor: pointer; margin: 2px;" id="' + data6 + '" onclick=\'ezedit(id);\'>'
+                var container = document.getElementById("main_container");
+                container.innerHTML += htmlElements;
+              });
+
+            });
+          }
+
+          else {
+            console.log('file = NULL');
+            console.log(data3)
+            var x = new participants(data4, data2, data3, data1, data5, data6);
+            participantsList.push(x);
+            htmlElements += '<img src=' + data3 + ' style ="border-radius: 50%; min-width: 50px; min-height: 50px; max-width: 50px; max-height: 50px; cursor: pointer; margin: 2px;" id="' + data6 + '" onclick=\'ezedit(id);\'>'
+            var container = document.getElementById("main_container");
+            container.innerHTML += htmlElements;
+          }
+        }
+        else {
+          //if email == last email
+          for (var i = 0; i < participantsList.length; i++) {
+            var specificID = participantsList[i].token;
+            var data6 = localStorage['detailsid'];
+            var newtoken = generateToken();
+            var storageRef = firebase.storage().ref();
+            var ref = storageRef.child('images').child('image' + (newtoken));
+            var file = document.getElementById("file").files[0];
+            var htmlElements = "";
+            if (data6 == specificID) {
+              var data1 = document.getElementById("company").value;
+              var data2 = document.getElementById("email").value;
+              var data3 = document.getElementById("output").src;
+              var data4 = document.getElementById("name").value;
+              var data5 = document.getElementById("role").value;
+              participantsList.splice(i, 1);
+              document.getElementById(data6).remove();
+            }
+          }
+
+          for (var i = 0; i < participantsTempList.length; i++) {
+            var specificID = participantsTempList[i].token;
+            var data6 = localStorage['detailsid'];
+            var newtoken = generateToken();
+            var storageRef = firebase.storage().ref();
+            var ref = storageRef.child('images').child('image' + (newtoken));
+            var file = document.getElementById("file").files[0];
+            var htmlElements = "";
+            if (data6 == specificID) {
+              var data1 = document.getElementById("company").value;
+              var data2 = document.getElementById("email").value;
+              var data3 = document.getElementById("output").src;
+              var data4 = document.getElementById("name").value;
+              var data5 = document.getElementById("role").value;
+              participantsTempList.splice(i, 1);
+            }
+          }
+
+          if (file != null) {
+            ref.put(file).then((snapshot) => {
+              console.log('Uploaded a blob or file!');
+              snapshot.ref.getDownloadURL().then(function (downloadURL) {
+                console.log(downloadURL);
+                var x = new participants(data4, data2, downloadURL, data1, data5, data6);
+                var y = new participants(data4, data2, downloadURL, data1, data5, data6);
+                participantsList.push(x);
+                participantsTempList.push(y);
+                htmlElements += '<img src=' + downloadURL + ' style ="border-radius: 50%; min-width: 50px; min-height: 50px; max-width: 50px; max-height: 50px; cursor: pointer; margin: 2px;" id="' + data6 + '" onclick=\'ezedit(id);\'>'
+                var container = document.getElementById("main_container");
+                container.innerHTML += htmlElements;
+              });
+
+            });
+          }
+
+          else {
+            console.log('file = NULL');
+            console.log(data3)
+            var x = new participants(data4, data2, data3, data1, data5, data6);
+            var y = new participants(data4, data2, data3, data1, data5, data6);
+            participantsList.push(x);
+            participantsTempList.push(y);
+            htmlElements += '<img src=' + data3 + ' style ="border-radius: 50%; min-width: 50px; min-height: 50px; max-width: 50px; max-height: 50px; cursor: pointer; margin: 2px;" id="' + data6 + '" onclick=\'ezedit(id);\'>'
+            var container = document.getElementById("main_container");
+            container.innerHTML += htmlElements;
+
+          }
+        }
+      });
+    }
+
+    function removedetails() {
+      var path = localStorage['stored'];
+      var storeid = localStorage['storeid'];
+      var ID = localStorage['myKey']
+      var roomID = localStorage['roomid']
+      var query = firebase.database().ref().child('meeting').child(path);
+      var query1 = firebase.database().ref().child('account').child(ID).child('meeting_ids').child(storeid);
+      var query2 = firebase.database().ref().child('room').child(roomID).child('meeting_ids');
+      query2.orderByChild('meetingPath').equalTo(path).on('value', function (snapshot) {
+        var data = snapshot;
+        //  console.log(data);
+        if (data != null) {
+          snapshot.forEach(data => {
+            console.log(data.key);
+            var query3 = firebase.database().ref().child('room').child(roomID).child("meeting_ids").child(data.key);
+            query3.remove();
+          });
+        }
+        else {
+          console.log("error");
+        }
+      });
+      query.remove();
+      query1.remove();
+    }
+
+    function successRemove() {
+      removedetails();
+      setTimeout(function () {
+        console.log("I am the third log after 5 seconds");
+        window.location.href = ("home.html");
+      }, 1500);
+    }
+
+    var loadFile = function (event) {
+      var image = document.getElementById('output');
+      image.src = URL.createObjectURL(event.target.files[0]);
+    };
+
+    function generateToken(length = 10) {
+      var characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      var charactersLength = characters.length;
+      var randomString = '';
+      for (var i = 0; i < length; i++) {
+        randomString += characters[Math.floor(Math.random() * charactersLength)];
+      }
+      return randomString;
+    }
+  </script>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+
+</html>
+
+<head>
+  <title>Room Booking</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
+    integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://www.gstatic.com/firebasejs/5.0.1/firebase.js"></script>
+</head>
+
+<style>
+  input[type=text] {
+    border-radius: 10px;
+    background-color: #f0f1f1;
+    color: rgb(8, 6, 6);
+    width: 100%;
+    padding: 18px 15px;
+    display: inline-block;
+    border: none;
+    box-sizing: border-box;
+    font-size: 16px;
+    height: 40px;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100vh;
+    padding-left: 160px;
+  }
+
+  button {
+    border-radius: 10px;
+    background-color: #070808;
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: 85%;
+    height: 50px;
+    font-size: 12px;
+  }
+
+  .btn1 {
+    background-color: white;
+    border: none;
+    color: rgb(14, 11, 11);
+    padding: 15px 15px;
+    margin: -10px 0;
+    border: none;
+    cursor: pointer;
+    width: 13%;
+    padding-left: 3%;
+    font-size: 12px;
+  }
+
+  #button0 {
+    background-color: rgb(14, 11, 11);
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: inline-grid;
+    font-size: 12px;
+  }
+
+  .material-icons1 {
+    font-size: 50px;
+  }
+
+  button:hover {
+    opacity: 0.8;
+  }
+
+  h1 {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 20px;
+    line-height: 25px;
+  }
+
+  h4 {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 30px;
+    line-height: 20px;
+    text-align: center;
+  }
+
+  h2 {
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 20px;
+    margin: 20px 0;
+    line-height: 15px;
+    font-weight: bold;
+  }
+
+  h5 {
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 20px;
+    margin: 20px 0;
+    line-height: 15px;
+    font-weight: bold;
+  }
+
+  h3 {
+    text-align: left;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 40px;
+    margin: 10px 0;
+    line-height: 0px;
+    font-weight: 1000;
+  }
+
+  .container {
+    text-align: left;
+    padding: 16px;
+    padding-left: 2%;
+  }
+
+  .container2 {
+    text-align: left;
+    padding: 3px;
+    border-style: groove;
+    position: relative;
+    display: flex;
+  }
+
+  #container1 {
+    text-align: center;
+    padding: 16px;
+  }
+
+  #main_container1 {
+    display: block;
+    text-align: center;
+    padding: 16px;
+    position: fixed;
+    top: 40%;
+    left: 49%;
+    background-color: white;
+    z-index: 1002;
+    overflow: auto;
+    max-height: 400px;
+    width: 500px;
+    margin: -100px 0 0 -150px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 10px;
+  }
+
+  #main_container1 h2:hover {
+    color: RoyalBlue;
+    cursor: pointer;
+  }
+
+  #main_container2 {
+    display: block;
+    text-align: left;
+    padding: 16px;
+    position: fixed;
+    top: 40%;
+    left: 49%;
+    background-color: white;
+    z-index: 1002;
+    overflow: auto;
+    max-height: 400px;
+    width: 500px;
+    margin: -100px 0 0 -150px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 10px;
+  }
+
+  #main_container2 h2:hover {
+    color: RoyalBlue;
+    cursor: pointer;
+  }
+
+  #close {
+    z-index: 1001;
+    float: right;
+    display: block;
+    padding: 2px 5px;
+    background: white;
+    cursor: pointer;
+    position: fixed;
+    top: 205px;
+  }
+
+  #close:hover {
+    float: right;
+    display: block;
+    padding: 2px 5px;
+    background: red;
+    color: white;
+  }
+
+  #title1{
+    z-index: 1000;
+    text-align: center;
+    padding: 27px 170px;
+    display: block;
+    font-weight: bold;
+    font-size: 26px;
+    position: fixed;
+    background: white;
+    top: 198px;
+  }
+
+  #title2{
+    z-index: 1000;
+    text-align: center;
+    padding: 27px 175px;
+    display: block;
+    font-weight: bold;
+    font-size: 26px;
+    position: fixed;
+    background: white;
+    top: 198px;
+  }
+
+  #con1 {
+    display: flex;
+    text-align: left;
+    padding: 16px;
+    padding-left: 3%;
+    justify-content: center;
+  }
+
+  #con2 {
+    display: block;
+    padding: 16px;
+    position: absolute;
+    right: 0px;
+    width: 400px;
+    height: 100%;
+    /* border-left-style: solid; */
+  }
+
+  span.psw {
+    float: center;
+    text-align: left;
+    padding-top: 16px;
+    margin: 3px 0;
+    padding-left: 0%;
+    font-size: 16px;
+  }
+
+  .sidebar {
+    height: 100%;
+    width: 160px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgb(24, 19, 19);
+    overflow-x: hidden;
+    padding-top: 16px;
+    cursor: pointer;
+  }
+
+  .sidebar a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #ffffff;
+    display: block;
+  }
+
+  .sidebar a:hover {
+    color: RoyalBlue;
+  }
+
+  .main {
+    margin-left: 160px;
+    /* Same as the width of the sidenav */
+    padding: 0px 10px;
+  }
+
+  @media screen and (max-height: 450px) {
+    .sidebar {
+      padding-top: 15px;
+    }
+
+    .sidebar a {
+      font-size: 18px;
+    }
+  }
+
+  img {
+    border-radius: 50%;
+  }
+
+  #pic {
+    border-radius: 0%;
+  }
+
+  .arrow {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+  }
+
+  .left {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+  }
+
+  /* The popup form - hidden by default */
+  .form-popup {
+    border-radius: 20px;
+    display: none;
+    position: fixed;
+    bottom: 0;
+    right: 15px;
+    z-index: 9;
+  }
+
+  /* Add styles to the form container */
+  .form-container {
+    border-radius: 20px;
+    max-width: 400px;
+    max-height: 650px;
+    padding: 10px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 10px;
+    background-color: white;
+  }
+
+  /* Full-width input fields */
+  .form-container input[type=text] {
+    width: 100%;
+    padding: 15px;
+    margin: 0px 0 5px 0;
+    border: none;
+    background: #f1f1f1;
+  }
+
+  /* When the inputs get focus, do something */
+  .form-container input[type=text]:focus {
+    background-color: #ddd;
+    outline: none;
+  }
+
+  .form-container .btn {
+    background-color: black;
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    margin: 12px 0 0px 0;
+    opacity: 0.8;
+    border-radius: 10px;
+    height: 50px;
+    font-size: 12px;
+  }
+
+
+  /* Add some hover effects to buttons */
+  .form-container .btn:hover,
+  .open-button:hover {
+    opacity: 1;
+  }
+
+
+  .form-popup {
+    border-radius: 20px;
+    display: none;
+    position: fixed;
+    bottom: 0;
+    right: 15px;
+    z-index: 9;
+  }
+
+  span {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  table {
+    /* border-collapse: separate; */
+    border-spacing: 0 15px;
+  }
+
+  th {
+    color: black;
+  }
+
+  th,
+
+  td {
+    width: 150px;
+    text-align: center;
+    /* border: 1px solid black;
+  padding: 5px; */
+  }
+
+  .fa-edit {
+    opacity: 0.8;
+  }
+
+  .customValidation {
+    color: red;
+    font-size: 10px;
+    font-family: verdana;
+    /* display: none; */
+  }
+</style>
+
+
+<body>
+  <div class="sidebar">
+    <a href="home.html"><i class="material-icons">home</i> Home</a>
+    <a href="calendar.html"><i class="material-icons">insert_invitation</i> Calendar</a>
+    <a href="rooms.html"><i class="material-icons">cloud</i> Rooms</a>
+    <a href="account.html"><i class="material-icons">person</i> Account</a>
+  </div>
+
+
+  <div class="container">
+    <div class="row" style="justify-content: center;">
+      <div class="container1 col-5" style="box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; border-radius: 10px;">
+        <div class="container">
+          <a href="rooms.html" style="color:black; font-size: 16px;"><i class="arrow left"></i> Rooms</a>
+        </div>
+        <div class="container">
+          <h4><strong>Meeting Room Booking Session</strong></h4>
+        </div>
+
+        <div class="container">
+          <img src="" id="pic" style="min-width: 100%; min-height: 250px; max-width:100%; max-height: 250px">
+          <br><br>
+          <label for="title" style="font-size: 16px;">Title</label><br>
+          <input type="text" placeholder="Title Of Meeting" name="title" id="title">
+          <br><br>
+          <i class="material-icons">&#xe0c8;</i>
+          <span id="venue" class="psw"> -- </span>
+          <br><br>
+          <label for="desc" style="font-size: 16px;">Description</label><br>
+          <input type="text" placeholder="Description of Meeting" name="desc" id="description">
+        </div>
+
+        <div class="container" id="container1">
+          <div class="row">
+            <div class="col-4">
+              <h1><b>Date</b></h1>
+              <span id="date">--</span>
+            </div>
+            <div id="START" class="col-4" onclick="chooseTime1()" style="cursor: pointer;">
+              <h1><b>Start</b></h1>
+              <span id="start">--</span>
+            </div>
+            <div id="END" class="col-4" onclick="chooseTime2()" style="cursor: pointer;">
+              <h1><b>End</b></h1>
+              <span id="end">--</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="container" id="main_container">
+          <label style="font-size: 16px;">Participants</label><br>
+          <button type="Submit" style="border-radius: 50%; max-width: 50px; max-height: 50px;" id="button0"
+            onclick="openFormadd()"><i class="material-icons"> person_add</i>Add</button>
+        </div>
+
+        <div>
+          <span class="customValidation" id="validation" style="display: none; text-align: center;"> Please ensure
+            everything is filled</span>
+        </div>
+
+        <div class="container1" id="con1">
+          <button onclick="savedetails();" type="Submit">Book</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll" id="main_container1" style="display: none;">
+
+  </div>
+
+  <div class="scroll" id="main_container2" style="display: none;">
+
+  </div>
+
+
+  <div class="form-popup" id="myForm">
+    <div class="form-container">
+      <!-- <img src ="dummy-profile-pic.png" for="file" style="cursor: pointer; max-width: 100px; max-height: 100px;"> -->
+      <!-- <p><label for="file" style="cursor: pointer;">Upload Image</label></p> -->
+      <br>
+      <div style="text-align: center;">
+        <input type="file" accept="image/gif, image/jpeg, image/png" name="image" id="file" onchange="loadFile(event)"
+          style="display: none;">
+        <img id="output" src="dummy-profile-pic.png"
+          style="max-width:100px; max-height: 100px; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;">
+        <span class="fa fa-edit" style="position: absolute; top: 30px; left: 230px; font-size:36px; "></span>
+        <p><label for="file" style="cursor: pointer;">Upload Image</label></p>
+      </div>
+
+      <label for="Name" style="font-size: 16px;">Company</label>
+      <input type="text" placeholder="Enter Company" name="company" id="company">
+
+      <label for="Email" style="font-size: 16px;">Email</label>
+      <input type="text" placeholder="Enter Email" name="email" id="email">
+
+      <label for="Company" style="font-size: 16px;">Name</label>
+      <input type="text" placeholder="Enter Name" name="name" id="name">
+
+      <label for="Role" style="font-size: 16px;">Role</label>
+      <input type="text" placeholder="Enter Role" name="role" id="role">
+      <br><br>
+
+      <span class="customValidation" id="validation1" style="display: none; text-align: center;"> Please ensure
+        everything is filled</span>
+        <span class="customValidation" id="validation4" style="display: none; text-align: center;"> Please enter a correct email</span>
+      <button id="add" type="submit" class="btn" onclick="addParticipants()">Save</button>
+      <button id="edit" type="button" class="btn" onclick="edit1()">Save</button>
+      <button id="delete" type="button" class="btn" onclick="del()">Delete</button>
+      <button type="button" class="btn" onclick="closeForm()">Close</button>
+    </div>
+  </div>
+
+
+  <script>
+    // document.getElementById('END').style.pointerEvents = 'none';
+    document.getElementById("validation").style.display = "none";
+    document.getElementById("validation1").style.display = "none";
+    document.getElementById("validation4").style.display = "none";
+
+    // window.onload = function(){
+    //     document.getElementById('close').onclick = function(){
+    //         this.parentNode.parentNode
+    //         .removeChild(this.parentNode.parentNode);
+    //         return false;
+    //     };
+    // };
+
+    function chooseTime1() {
+      document.getElementById("main_container1").style.display = "block";
+      document.getElementById("main_container2").style.display = "none";
+      selectTime();
+    }
+
+    function chooseTime2() {
+      document.getElementById("main_container1").style.display = "none";
+      document.getElementById("main_container2").style.display = "block";
+      endTime();
+    }
+
+    function openFormadd() {
+      document.getElementById("myForm").style.display = "block";
+      document.getElementById("add").style.display = "block";
+      document.getElementById("edit").style.display = "none";
+      document.getElementById("delete").style.display = "none";
+
+      document.getElementById("name").value = "";
+      document.getElementById("email").value = "";
+      document.getElementById("company").value = "";
+      document.getElementById("role").value = "";
+      document.getElementById("output").src = "dummy-profile-pic.png";
+    }
+
+    function openFormedit() {
+      document.getElementById("myForm").style.display = "block";
+      document.getElementById("add").style.display = "none";
+      document.getElementById("edit").style.display = "block";
+      document.getElementById("delete").style.display = "block";
+    }
+
+    function closeForm() {
+      document.getElementById("myForm").style.display = "none";
+    }
+
+  </script>
+
+  <script>
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+
+    today = yyyy + '-' + mm + '-' + dd;
+    var newtoday = new Date(today);
+
+    var participantsList = [];
+    var participantsTempList = [];
+    var timeList = [];
+    var selectedTime = [];
+    var tempEnd1 = [];
+    var config = {
+      apiKey: "AIzaSyCHEXfXqYbp6SrVkGQaqD8M7qS6OjbOvKk",
+      authDomain: "meeting-room-booking-106bb.firebaseapp.com",
+      databaseURL: "https://meeting-room-booking-106bb-default-rtdb.firebaseio.com",
+      projectId: "meeting-room-booking-106bb",
+      storageBucket: "meeting-room-booking-106bb.appspot.com",
+      messagingSenderId: "282229579896",
+      appId: "1:282229579896:web:2c78db0e1a646fb0ad8d8d",
+      measurementId: "G-XB6S8K34QE"
+    };
+    firebase.initializeApp(config);
+
+    var roomID = localStorage['roomID']
+    var query = firebase.database().ref().child('room').child(roomID);
+    var date = localStorage['date'];
+    document.getElementById("date").innerHTML = date;
+    var pattern = /(\d{2})\-(\d{2})\-(\d{4})/;
+    var dt = new Date(date.replace(pattern, '$3-$2-$1'));
+
+    query.once("value", snapshot => {
+      var img = snapshot.child("src_image").val();
+      var name = snapshot.child("name").val();
+      var venue = snapshot.child("venue").val();
+      document.getElementById("venue").innerHTML = name;
+      document.getElementById("pic").src = img;
+    })
+
+    class participants {
+      constructor(company, email, imgSrc, name, role, token) {
+        this.company = company;
+        this.email = email;
+        this.imgSrc = imgSrc;
+        this.name = name;
+        this.role = role;
+        this.token = token;
+      }
+    }
+
+    class time {
+      constructor(time) {
+        this.time = time;
+      }
+    }
+
+    function selectTime() {
+      console.log(dt);
+      console.log(newtoday);
+      // document.getElementById("main_container1").style.display = "none";
+      // document.getElementById("main_container2").style.display = "block";
+      var data = localStorage.getItem('roomList');
+      var roomID = localStorage.getItem('roomID');
+      var roomList = (JSON.parse(data));
+      // console.log(timeList);
+      var htmlElements = "";
+      htmlElements = '<h1 id = "title1"> Start Time </h1><br><br><br>'
+      for (i = 0; i < roomList.length; i++) {
+        if (roomList[i].id == roomID) {
+          var title1 = "Start Time";
+          var tempStart = roomList[i].availableTime;
+          var htmlElements1 = "";
+
+          if (newtoday.getTime() == dt.getTime()) {
+            console.log("today");
+            for (var x = 0; x < tempStart.length; x++) {
+              htmlElements1 += '<h2 onclick = "timeClicked(this)">' + tempStart[x] + '</h2>'
+            }
+          }
+          else {
+            console.log("not today");
+            for (var x = 0; x < tempStart.length - 1; x++) {
+              htmlElements1 += '<h2 onclick = "timeClicked(this)">' + tempStart[x] + '</h2>'
+            }
+          }
+          var container = document.getElementById("main_container1");
+          container.innerHTML = '<span id = "close" onclick = \'this.parentNode.style.display = "none";\'> x </span>' + htmlElements;
+          container.innerHTML +=  htmlElements1;
+        }
+      }
+    }
+
+    function timeClicked(e) {
+      // console.log(e.innerHTML);
+      document.getElementById("start").innerHTML = e.innerHTML;
+      document.getElementById("main_container1").style.display = "none";
+      endTime();
+    }
+
+    function endTime() {
+      selectedTime = [];
+      tempEnd1 = []
+      document.getElementById("main_container2").style.display = "block";
+      var data = localStorage.getItem('roomList');
+      var roomID = localStorage.getItem('roomID');
+      var roomList = (JSON.parse(data));
+
+      var interval = 0;
+
+      // console.log(roomList);
+      if ( document.getElementById("start").innerHTML == "--"){
+        console.log("here");
+        var container = document.getElementById("main_container2");
+        var htmlElements = '<br><br><h5> Please select a Start Time First</h5><br><br>'
+        container.innerHTML = '<span id = "close" onclick = \'this.parentNode.style.display = "none";\'> x </span>' + htmlElements;
+        return;
+      }
+      console.log("here one");
+      for (i = 0; i < roomList.length; i++) {
+        if (roomList[i].id == roomID) {
+          var tempEnd = roomList[i].timeList;
+          tempEnd = roomList[i].timeList;
+          var tempAvailable = roomList[i].availableTime;
+          // console.log(tempEnd);
+          // console.log(tempAvailable);
+          //for loop
+          for (x = 0; x < tempEnd.length; x++) {
+            if (tempEnd[x] <= (document.getElementById("start").innerHTML).toString()) {
+              continue;
+            }
+            tempEnd1.push(tempEnd[x]);
+            var start = tempEnd[0];
+            var end = tempEnd[1];
+          }
+        }
+      }
+
+
+      var diff_minutes = (function () {
+        return function (date1, date2) {
+          var date1_time = date1.getTime(), date2_time = date2.getTime(), diff_sec = Math.abs(date1_time - date2_time) / 1000, diff_min = Math.ceil(diff_sec / 60);
+          return diff_min;
+        }
+      })();
+
+      var date = localStorage['today'];
+      var dt1 = new Date(date + ", " + start);
+      var dt2 = new Date(date + ", " + end);
+      interval = (diff_minutes(dt1, dt2));
+      var htmlElements1 = "";
+      var htmlElements = "";
+      htmlElements = '<h1 id = "title2"> End Time </h1><br><br><br>'
+      // console.log(moment(end, 'HH:mm').subtract('minutes', interval).format('HH:mm'));
+      // console.log(interval);
+      // console.log(start);
+      // console.log(end);
+
+      // console.log(tempAvailable);
+
+      for (x = 0; x < tempEnd.length; x++) {
+        if (tempEnd[x] <= (document.getElementById("start").innerHTML).toString()) {
+          // console.log(tempEnd[x] + " skipped");
+          continue;
+        }
+        var end = tempEnd[x];
+
+        // console.log(tempAvailable.indexOf((moment(end, 'HH:mm').subtract('minutes', interval).format('HH:mm'))));
+
+        if (tempAvailable.indexOf((moment(end, 'HH:mm').subtract('minutes', interval).format('HH:mm'))) == -1) {
+          break;
+        }
+        htmlElements1 += '<h2 onclick = "timeClicked1(this)">' + end + '</h2>';
+        var container = document.getElementById("main_container2");
+        container.innerHTML = '<span id = "close" onclick = \'this.parentNode.style.display = "none";\'> x </span>' + htmlElements;
+        container.innerHTML +=  htmlElements1;
+      }
+
+      // for (x = 0; x < tempEnd.length; x++) {
+      //   var beginning = moment(tempEnd[x],'HH:mm').toDate();
+      //   console.log(beginning);
+      //   var end = (document.getElementById("end").innerHTML).toString();
+      //   moment((document.getElementById("end").innerHTML).toString()).toDate();
+      //   console.log(end);
+      //   if ((moment(tempEnd[x],'HH:mm').toDate()) < moment((document.getElementById("start").innerHTML).toString()).toDate()  ) {
+      //     continue;
+      //   }
+      //   if (tempEnd[x] > (document.getElementById("end").innerHTML).toString()) {
+      //     continue;
+      //   }
+      //   console.log(beginning.isBefore(end));
+      //   console.log("here");
+      //   selectedTime.push((tempEnd[x]).toString());
+      //   selectedTime += (" "+tempEnd[x]);
+      // }
+    }
+
+    function generateTime() {
+      selectedTime.push(document.getElementById("start").innerHTML)
+      for (x = 0; x < tempEnd1.length; x++) {
+        if (tempEnd1[x] < (document.getElementById("start").innerHTML)) {
+          continue;
+        }
+        if (tempEnd1[x] > (document.getElementById("end").innerHTML)) {
+          continue;
+        }
+        console.log("here");
+        selectedTime.push((tempEnd1[x]).toString());
+      }
+      console.log(document.getElementById("start").innerHTML);
+      console.log(document.getElementById("end").innerHTML);
+      console.log(selectedTime);
+    }
+
+    function timeClicked1(e) {
+      // console.log(e.innerHTML);
+      document.getElementById("end").innerHTML = e.innerHTML;
+      document.getElementById("main_container2").style.display = "none";
+      generateTime();
+    }
+
+  </script>
+
+  <script>
+    function savedetails() {
+      var title = document.getElementById("title").value;
+      var desc = document.getElementById("description").value;
+      var start = document.getElementById("start");
+      var end = document.getElementById("end");
+      var roomID = localStorage['roomID'];
+      var myKey = localStorage['myKey'];
+      var path = localStorage['stored'];
+      var date = localStorage['date'];
+      var query = firebase.database().ref().child('meeting');
+      var query1 = firebase.database().ref().child('room').child(roomID);
+      var query2 = firebase.database().ref('account/' + myKey + "/meeting_ids");
+
+      var pushMeeting = query2.push();
+      var id = query.push();
+      var meetingids = query1.push();
+
+      if (title == "" || desc == "" || start == "--" || end == "--") {
+        document.getElementById("validation").style.display = "block";
+        return;
+      }
+      document.getElementById("validation").style.display = "none";
+      query2.child(pushMeeting.key).set(date + "/" + id.key + "/" + roomID);
+
+      query1.once("value", snapshot => {
+        var name = snapshot.child("name").val();
+        var venue = snapshot.child("venue").val();
+        document.getElementById("venue").innerHTML = name;
+        localStorage.storeid = snapshot.child("id").val();
+        localStorage.roomid = snapshot.child("roomId").val();
+        var email = localStorage['email'];
+        var host = localStorage['username'];
+        // var date = snapshot.child('meetingPath').val().substring(0, 10);
+        var firstTime = document.getElementById("start").innerHTML;
+        var count = snapshot.child("time").numChildren();
+        var lastTime = document.getElementById("end").innerHTML;
+        var datetime = date + " " + firstTime + " - " + lastTime;
+
+        for (i = 0; i < participantsList.length; i++) {
+          var participantEmail = participantsList[i].email;
+          var username = participantsList[i].name;
+          var token = participantsList[i].token;
+          sendParticipantEmail(participantEmail, path, username, title, datetime, host, email, venue, token);
+        }
+
+        // for (i = 0; i < participantsTempList.length; i++) {
+        //   participantsList.push(participantsTempList[i]);
+        // }
+
+        query.child(date).child(id.key).child(roomID).set({
+          description: desc,
+          id: pushMeeting.key,
+          meetingCreator: myKey,
+          meetingPath: date + "/" + id.key + "/" + roomID,
+          name: name,
+          participants: "",
+          roomId: roomID,
+          time: "",
+          title: title,
+          venue: venue
+        });
+
+        query1.child('meeting_ids').child(meetingids.key).set({
+          creatorID: myKey,
+          meetingPath: date + "/" + id.key + "/" + roomID
+        });
+
+        firebase.database().ref('meeting/' + (date + "/" + id.key + "/" + roomID) + "/time").set(selectedTime);
+        firebase.database().ref('meeting/' + (date + "/" + id.key + "/" + roomID) + "/participants").set(participantsList);
+      })
+
+      // setTimeout(function () {
+      //   console.log("I am the third log after 5 seconds");
+      //   window.location.href = ("home.html");
+      // }, 1500);
+    }
+
+    async function sendParticipantEmail(participantEmail, path, username, title, datetime, host, email, venue, token) {
+      var formData = new FormData();
+      formData.append('email', participantEmail);
+      formData.append('src', path);
+      formData.append('username', username);
+      formData.append('title', title);
+      formData.append('datetime', datetime);
+      formData.append('host', host);
+      formData.append('hostEmail', email);
+      formData.append('location', venue);
+      formData.append('token', token);
+
+      var response = await fetch('http://192.168.0.170/MRB/API/sendParticipantEmail.php', {
+        method: "POST",
+        body: formData
+      });
+      var data = await response.json();
+      console.log(data);
+    }
+
+    function addParticipants() {
+      var name = document.getElementById("name").value;
+      var email = document.getElementById("email").value;
+      var company = document.getElementById("company").value;
+      var role = document.getElementById("role").value;
+      var newtoken = generateToken();
+      var htmlElements = "";
+
+      var storageRef = firebase.storage().ref();
+      var ref = storageRef.child('images').child('image' + (newtoken));
+      var file = document.getElementById("file").files[0];
+      var emailPattern = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/
+
+      if (name == "" || email == "" || company == "" || role == "" || file == null) {
+        document.getElementById("validation1").style.display = "block";
+        return;
+      }
+      else if (!emailPattern.test(email)) {
+        document.getElementById("validation4").style.display = "block";
+      }
+      else {
+        document.getElementById("validation1").style.display = "none";
+        document.getElementById("validation4").style.display = "none";
+        closeForm();
+        ref.put(file).then((snapshot) => {
+          console.log('Uploaded a blob or file!');
+          snapshot.ref.getDownloadURL().then(function (downloadURL) {
+            console.log(downloadURL);
+            var x = new participants(company, email, downloadURL, name, role, newtoken);
+            participantsList.push(x);
+            htmlElements += '<img src=' + x.imgSrc + ' style ="border-radius: 50%; min-width: 50px; min-height: 50px; max-width: 50px; max-height: 50px; cursor: pointer; margin: 2px;" id="' + newtoken + '" onclick=\'ezedit(id);\'>'
+            var container = document.getElementById("main_container");
+            container.innerHTML += htmlElements;
+          });
+
+        });
+      }
+    }
+
+    function del(id) {
+      for (var i = 0; i < participantsList.length; i++) {
+        var specificID = participantsList[i].token;
+        var data6 = localStorage['detailsid'];
+        if (data6 == specificID) {
+          participantsList.splice(i, 1);
+          document.getElementById(data6).remove();
+        }
+      }
+      closeForm();
+    }
+
+    function ezedit(id) {
+      localStorage.detailsid = id;
+      edit();
+    }
+
+    function edit(id) {
+      for (var i = 0; i < participantsList.length; i++) {
+        var specificID = participantsList[i].token;
+        var unique = localStorage['detailsid'];
+        if (unique == specificID) {
+          var data1 = participantsList[i].company;
+          var data2 = participantsList[i].email;
+          var data3 = participantsList[i].imgSrc;
+          var data4 = participantsList[i].name;
+          var data5 = participantsList[i].role;
+          var data6 = participantsList[i].token;
+          // participantsList.splice(i, 1);
+          // document.getElementById(id).remove();
+          openFormedit();
+          document.getElementById("company").value = data1;
+          document.getElementById("email").value = data2;
+          document.getElementById("output").src = data3;
+          document.getElementById("name").value = data4;
+          document.getElementById("role").value = data5;
+        }
+      }
+    }
+
+    function edit1() {
+      document.getElementById("file").value = '';
+      closeForm();
+      for (var i = 0; i < participantsList.length; i++) {
+        var specificID = participantsList[i].token;
+        var data6 = localStorage['detailsid'];
+        var newtoken = generateToken();
+        var storageRef = firebase.storage().ref();
+        var ref = storageRef.child('images').child('image' + (newtoken));
+        var file = document.getElementById("file").files[0];
+        var htmlElements = "";
+        if (data6 == specificID) {
+          var data1 = document.getElementById("company").value;
+          var data2 = document.getElementById("email").value;
+          var data3 = document.getElementById("output").src;
+          var data4 = document.getElementById("name").value;
+          var data5 = document.getElementById("role").value;
+          participantsList.splice(i, 1);
+          document.getElementById(data6).remove();
+        }
+      }
+
+      if (file != null) {
+        ref.put(file).then((snapshot) => {
+          console.log('Uploaded a blob or file!');
+          snapshot.ref.getDownloadURL().then(function (downloadURL) {
+            console.log(downloadURL);
+            var x = new participants(data4, data2, downloadURL, data1, data5, data6);
+            participantsList.push(x);
+            htmlElements += '<img src=' + downloadURL + ' style ="border-radius: 50%; min-width: 50px; min-height: 50px; max-width: 50px; max-height: 50px; cursor: pointer; margin: 2px;" id="' + data6 + '" onclick=\'ezedit(id);\'>'
+            var container = document.getElementById("main_container");
+            container.innerHTML += htmlElements;
+          });
+
+        });
+      }
+
+      else {
+        console.log('here');
+        console.log(data3)
+        var x = new participants(data4, data2, data3, data1, data5, data6);
+        participantsList.push(x);
+        htmlElements += '<img src=' + data3 + ' style ="border-radius: 50%; min-width: 50px; min-height: 50px; max-width: 50px; max-height: 50px; cursor: pointer; margin: 2px;" id="' + data6 + '" onclick=\'ezedit(id);\'>'
+        var container = document.getElementById("main_container");
+        container.innerHTML += htmlElements;
+
+      }
+    }
+
+    var loadFile = function (event) {
+      var image = document.getElementById('output');
+      image.src = URL.createObjectURL(event.target.files[0]);
+    };
+
+    function generateToken(length = 10) {
+      var characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      var charactersLength = characters.length;
+      var randomString = '';
+      for (var i = 0; i < length; i++) {
+        randomString += characters[Math.floor(Math.random() * charactersLength)];
+      }
+      return randomString;
+    }
+
+  </script>
+
+</body>
+
+</html>

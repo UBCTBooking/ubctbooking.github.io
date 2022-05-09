@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Sign Up Page</title>
+  <link rel="icon" href="UBCT 2021 Apr LOGO_33x32.jpg">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/core.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/md5.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+  <script src="https://www.gstatic.com/firebasejs/5.0.1/firebase.js"></script>
+</head>
+<style>
+  input[type=text],
+  input[type=password],
+  input[type=email],
+  input[type="number"]{
+    border-radius: 10px;
+    background-color: #f0f1f1;
+    color: rgb(8, 6, 6);
+    width: 80%;
+    padding: 18px 15px;
+    margin: 8px 0;
+    display: inline-block;
+    border: none;
+    box-sizing: border-box;
+    font-size: 16px;
+    height: 40px;
+  }
+
+  body {
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100vh;
+  }
+
+  button {
+    border-radius: 10px;
+    background-color: #070808;
+    color: white;
+    padding: 18px 15px;
+    margin: -10px 0;
+    border: none;
+    cursor: pointer;
+    width: 80%;
+    font-size: 12px;
+  }
+
+  button:hover {
+    opacity: 0.8;
+  }
+
+  h1 {
+    text-align: center;
+    font-family: verdana;
+    font-size: 30px;
+    line-height: 35px;
+  }
+
+  h2 {
+    text-align: center;
+    font-family: 'verdana';
+    font-size: 14px;
+    margin: 10px 0;
+    line-height: 8px;
+  }
+
+
+  .container {
+    text-align: center;
+    padding: 9px;
+  }
+
+  .container1 {
+    text-align: left;
+    padding-left: 12px;
+    /* padding: 16px;
+  padding-left: 34% ; */
+  }
+
+  #main_container2 {
+    display: block;
+    text-align: left;
+    padding: 16px;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    background-color: white;
+    z-index: 1002;
+    overflow: auto;
+    max-height: 400px;
+    width: 500px;
+    margin: -100px 0 0 -150px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 10px;
+  }
+
+  span.psw {
+    float: center;
+    text-align: center;
+    padding-top: 16px;
+    margin: 3px 0;
+    line-height: 35px;
+  }
+
+  span.alert {
+    float: center;
+    text-align: center;
+    /* padding-top: 16px; */
+    margin: 3px 0;
+  }
+
+  .arrow {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+  }
+
+  .left {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+  }
+
+  .customValidation {
+    color: red;
+    font-size: 14px;
+    /* display: none; */
+  }
+
+  .customValidation1 {
+    color: green;
+    font-size: 14px;
+    /* display: none; */
+  }
+</style>
+
+<body>
+  <div class="row" style="justify-content: center;">
+    <div class="container col-3" style="box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; border-radius: 10px;">
+      <br>
+      <div class="container1">
+        <a href="index.html" style="color:black; font-size: 14px;"><i class="arrow left"></i> Sign In</a>
+      </div>
+
+      <h1><strong>Sign Up</strong></h1>
+      <h2><strong>Create an account so that you can</strong></h2>
+      <h2><strong>start booking seamlessly</strong></h2>
+      <div class="container">
+        <img src="UBCT 2021 Apr LOGO.png" style="height: 200px; width: 200px;">
+      </div>
+      <form class="needs-validation" novalidate onsubmit="signUp()" action="">
+        <div class="container">
+          <input type="hidden" name="id" id="id">
+          <input type="text" placeholder="Username" name="uname" id="uname" required>
+          <br>
+          <input type="text" placeholder="Phone Number" name="phone" id="phone" required 
+           maxlength="11" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+          <br>
+          <input type="email" placeholder="Email" name="email" id="email" required>
+          <br>
+          <input type="password" placeholder="Password" name="psw" id="psw" required
+          minlength="8" style="margin-left: -15px;">
+          <i class="far fa-eye" id="togglePassword" style="margin-left: -30px; cursor: pointer;"></i>
+          <!-- <div class="invalid-feedback" style="font-size: 14px">
+            Please fill in the details
+          </div> -->
+          <br>
+          <span class="customValidation" id="validation1" style="display: none;"> Phone number has been registered,
+            please select a new phone number</span>
+          <span class="customValidation" id="validation2" style="display: none;"> Email has been registered, please
+            login instead</span>
+          <span class="customValidation" id="validation4" style="display: none;"> Please enter a Valid Email Address</span>
+          <span class="customValidation1" id="validation3" style="display: none;"> Account successfully created, please
+            verify your account</span>
+          <span class="psw">Your password must be 8 or more characters</span>
+        </div>
+
+        <div class="container">
+          <button class="button" type="submit">Create an account</button>
+        </div>
+        <br>
+      </form>
+    </div>
+  </div>
+
+
+
+  <script>
+    (function () {
+      'use strict';
+      window.addEventListener('load', function () {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function (form) {
+          form.addEventListener('submit', function (event) {
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+          }, false);
+        });
+      }, false);
+    })();
+
+    const togglePassword = document.querySelector('#togglePassword');
+    const password = document.querySelector('#psw');
+
+    togglePassword.addEventListener('click', function (e) {
+      // toggle the type attribute
+      const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+      password.setAttribute('type', type);
+      // toggle the eye slash icon
+      this.classList.toggle('fa-eye-slash');
+    });
+
+    // Initialize Firebase
+    // TODO: Replace with your project's customized code snippet
+    var config = {
+      apiKey: "AIzaSyCHEXfXqYbp6SrVkGQaqD8M7qS6OjbOvKk",
+      authDomain: "meeting-room-booking-106bb.firebaseapp.com",
+      databaseURL: "https://meeting-room-booking-106bb-default-rtdb.firebaseio.com",
+      projectId: "meeting-room-booking-106bb",
+      storageBucket: "meeting-room-booking-106bb.appspot.com",
+      messagingSenderId: "282229579896",
+      appId: "1:282229579896:web:2c78db0e1a646fb0ad8d8d",
+      measurementId: "G-XB6S8K34QE"
+    };
+    firebase.initializeApp(config);
+
+
+
+    function signUp() {
+      document.getElementById("validation1").style.display = "none";
+      document.getElementById("validation2").style.display = "none";
+      document.getElementById("validation3").style.display = "none";
+      document.getElementById("validation4").style.display = "none";
+      event.preventDefault();
+      var userName = document.getElementById("uname").value;
+      var userPhone = document.getElementById("phone").value;
+      var userEmail = document.getElementById("email").value;
+      var userPass = document.getElementById("psw").value;
+      var userID = document.getElementById("id").value;
+      var acc = firebase.database().ref().child('account');
+
+      // var query = database.child('account').orderByChild("email").equalTo(userEmail)
+      var emailPattern = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/
+      var temp = generateToken();
+      var temp1 = generateID();
+
+      if (userName == "" || userPhone == "" || userEmail == "" || userPass == "") {
+
+      }
+      else if (!emailPattern.test(userEmail)) {
+        document.getElementById("validation4").style.display = "block";
+      }
+      else {
+        var query = firebase.database().ref().child('account');
+        query.orderByChild('telephone').equalTo(userPhone).once("value", snapshot => {
+          if (snapshot.exists()) {
+            document.getElementById("validation1").style.display = "block";
+            return;
+          }
+          else {
+            query.orderByChild('email').equalTo(userEmail).once("value", snapshot => {
+              if (snapshot.exists()) {
+                document.getElementById("validation2").style.display = "block";
+                return;
+              }
+              else {
+                var id = acc.push();
+                acc.child(id.key).set({
+                  activated: "False",
+                  email: userEmail,
+                  id: document.getElementById("id").value,
+                  password: generateEncryptPass(temp, userPass),
+                  src_image: "",
+                  telephone: userPhone,
+                  token: temp,
+                  userType: 0,
+                  username: userName
+                });
+                document.getElementById("validation3").style.display = "block";
+                sendEmail(userEmail, id.key);
+              }
+            });
+          }
+        });
+      }
+    }
+
+    function onlyNumberKey(evt) {
+    // Only ASCII character in that range allowed
+    var ASCIICode = evt.which ? evt.which : evt.keyCode;
+    if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57)) return false;
+    return true;
+  }
+  
+    function generateToken(length = 10) {
+      var characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      var charactersLength = characters.length;
+      var randomString = '';
+      for (var i = 0; i < length; i++) {
+        randomString += characters[Math.floor(Math.random() * charactersLength)];
+      }
+      return randomString;
+    }
+
+    function generateEncryptPass(temp, userPass) {
+      var pass = '';
+      pass = (CryptoJS.MD5(temp + "" + userPass).toString());
+      return pass;
+    }
+
+    async function generateID() {
+
+      const myPromise = new Promise((resolve, reject) => {
+        setTimeout(() => {
+          const dbRef = firebase.database().ref("count");
+          dbRef.once("value").then((snapshot) => {
+            if (snapshot.exists()) {
+              var name = snapshot.val();
+              var ID = "IT" + (100000 + name);
+              dbRef.set((name + 1));
+              resolve(ID);
+
+            } else {
+              reject("Error");
+            }
+          });
+        }, 300);
+      });
+
+      var result = await myPromise;
+      document.getElementById("id").value = result;
+    }
+
+
+    async function sendEmail(userEmail, id) {
+      var formData = new FormData();
+      formData.append('email', userEmail);
+      formData.append('id', id);
+
+      var response = await fetch('http://192.168.0.170/MRB/API/sendEmail.php', {
+        method: "POST",
+        body: formData
+      });
+      var data = await response.json();
+      console.log(data);
+    }
+
+    async function sendForgettenEmail() {
+      var formData = new FormData();
+      formData.append('email', "ypleong@ubct.com.my");
+      formData.append('id', "125488");
+      formData.append('token', "125488");
+
+      var response = await fetch('http://192.168.0.170/MRB/API/sendForgetEmail.php', {
+        method: "POST",
+        body: formData
+      });
+      var data = await response.json();
+      console.log(data);
+    }
+
+    async function sendParticipantEmail() {
+      var formData = new FormData();
+      formData.append('email', "ypleong@ubct.com.my");
+      formData.append('src', "08-02-2022/-MvMLYLUIVyKcu10CmYO/-MsdYgJYbQdBUW_vi5oX");
+      formData.append('username', "chong");
+      formData.append('title', "title of meeting");
+      formData.append('datetime', "22-02-2022 14:00 - 15:00");
+      formData.append('host', "UBCT");
+      formData.append('hostEmail', "ypleong@ubct.com.my");
+      formData.append('location', "Level 1");
+      formData.append('token', "j3h0VoxNQ1C");
+
+      var response = await fetch('http://192.168.0.170/MRB/API/sendParticipantEmail.php', {
+        method: "POST",
+        body: formData
+      });
+      var data = await response.json();
+      console.log(data);
+    }
+
+    async function exportData() {
+      var formData = new FormData();
+      formData.append('email', "ypleong@ubct.com.my");
+      formData.append('room_id', "-MsdYgJYbQdBUW_vi5oX");
+      formData.append('from_date', ""); // date in dd-MM-YYYY or empty
+      formData.append('to_date', ""); // date in dd-MM-YYYY or empty
+
+      var response = await fetch('http://192.168.0.170/MRB/API/exportData.php', {
+        method: "POST",
+        body: formData
+      });
+      var data = await response.json();
+      console.log(data);
+    }
+
+
+  //   function sendEmail(userEmail, password){
+  //     $.ajax({
+  //       url: "http://192.168.0.170/MRB/api/test.php",
+  //       type: "POST",
+  //       crossDomain: true,
+  //       data: JSON.stringify({
+  //         "email": userEmail,
+  //         "id": password
+  //       }),
+  //       dataType: "jsonp",
+  //       contentType: "application/json",
+  //       success: function (response) {
+  //           // var resp = JSON.parse(response)
+  //           // alert(JSON.stringify(response));
+  //       },
+  //       error: function (xhr, status) {
+  //           alert(JSON.stringify(xhr) + ": " + status);
+  //       }
+  //   });
+  // }
+  </script>
+
+</body>

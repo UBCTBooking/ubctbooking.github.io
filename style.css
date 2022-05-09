@@ -1,0 +1,271 @@
+body { 
+    overflow-x: hidden;
+    display:flex; flex-direction:column; justify-content:center;
+    min-height:100vh;
+    padding-left: 160px;
+   }
+
+  h1 {
+      text-align:center;
+      font-family: verdana;
+      font-size: 30px;
+      line-height : 35px;
+  }
+  
+  h2 {
+      text-align:center;
+      font-family: 'verdana';
+      font-size: 17px;
+      margin: 10px 0;
+      line-height : 0px;
+  }
+  
+  h3 {
+      text-align:center;
+      font-family: 'verdana';
+      font-size: 40px;
+      margin: 10px 0;
+      line-height : 0px;
+      font-weight: 1000;
+  }
+
+  .container {
+  text-align: center;
+  /* width: 80%; */
+  padding: 3px;
+  position: relative;
+  }
+
+  #con1{
+    display: flex;
+    text-align: left;
+    padding: 16px;
+    padding-left: 15%;
+
+  }
+
+  .container2 {
+    text-align: center;
+    padding: 3px;
+    border-style: groove;
+    position: relative;
+  }
+  
+  span.psw {
+    float: center;
+    text-align:center;
+    padding-top: 16px;
+    margin: 3px 0;
+  }
+  
+  .sidebar {
+    height: 100%;
+    width: 160px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgb(24, 19, 19);
+    overflow-x: hidden;
+    padding-top: 16px;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; 
+}
+
+.sidebar a {
+font-family: verdana;
+padding: 6px 8px 6px 16px;
+text-decoration: none;
+font-size: 20px;
+color: #ffffff;
+display: block;
+}
+
+.sidebar a:hover {
+color: RoyalBlue;
+}
+
+
+.main {
+margin-left: 160px; /* Same as the width of the sidenav */
+padding: 0px 10px;
+}
+
+@media screen and (max-height: 450px) {
+.sidebar {padding-top: 15px;}
+.sidebar a {font-size: 18px;}
+}
+
+img {
+border-radius: 50%;
+}
+
+.text-block {
+position: absolute;
+bottom: 10px;
+right: 20px;
+background-color: black;
+color: white;
+padding-left: 20px;
+padding-right: 20px;
+}
+
+
+.btn1 {
+background-color: white;
+border: none;
+color: rgb(14, 11, 11);
+/* padding: 12px 16px; */
+font-size: 16px;
+cursor: pointer;
+/* padding-left: 0%; */
+display:inline;
+}
+
+.btn2 {
+background-color: white;
+border: none;
+color: rgb(14, 11, 11);
+/* padding: 12px 16px; */
+font-size: 16px;
+cursor: pointer;
+/* padding-left: 1%; */
+display:inline;
+}
+
+.btn3 {
+background-color: white;
+border: none;
+color: rgb(14, 11, 11);
+/* padding: 12px 16px; */
+font-size: 16px;
+cursor: pointer;
+/* padding-left: 1%; */
+display:inline;
+}
+
+/* Darker background on mouse-over */
+.btn1:hover {
+background-color: rgb(91, 224, 241);
+}
+
+.btn2:hover {
+background-color: rgb(91, 224, 241);
+}
+
+.btn3:hover {
+background-color: rgb(91, 224, 241);
+}
+
+p {
+font-size:15px;
+font-weight: bold;
+}
+
+@media screen and (max-height: 450px) {
+    .sidebar {padding-top: 15px;}
+    .sidebar a {font-size: 18px;}
+  }
+  
+  img {
+    border-radius: 50%;
+  }
+  
+  .arrow {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+  }
+  
+  .left {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+  }
+  
+  /* The popup form - hidden by default */
+  .form-popup {
+    border-radius: 20px;
+    display: none;
+    position: fixed;
+    bottom: 0;
+    right: 15px;
+    z-index: 9;
+  }
+  
+  /* Add styles to the form container */
+  .form-container {
+    border-radius: 20px;
+    max-width: 400px;
+    height: 575px;
+    padding: 10px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 10px;
+    background-color: white;
+  }
+  
+  /* Full-width input fields */
+  .form-container input[type=text] {
+    width: 100%;
+    padding: 15px;
+    margin: 0px 0 5px 0; 
+    border: none;
+    background: #f1f1f1;
+  }
+  
+  /* When the inputs get focus, do something */
+  .form-container input[type=text]:focus {
+    background-color: #ddd;
+    outline: none;
+  }
+  
+  .form-container .btn {
+    background-color: black;
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    margin: 25px 0 -15px 0;
+    opacity: 0.8;
+    border-radius: 10px;
+    height: 50px;
+  }
+  
+  
+  /* Add some hover effects to buttons */
+  .form-container .btn:hover, .open-button:hover {
+    opacity: 1;
+  }
+  
+  
+  .form-popup {
+    border-radius: 20px;
+    display: none;
+    position: fixed;
+    bottom: 0;
+    right: 15px;
+    z-index: 9;
+  }
+  
+  span {
+    font-size:20px;
+    font-weight: bold;
+  }
+  
+table {
+        /* border-collapse: separate; */
+        border-spacing: 0 15px;
+        }
+
+    th {
+        color: black;
+    }
+    th,
+
+    td {
+        width: 150px;
+        text-align: center;
+        /* border: 1px solid black;
+        padding: 5px; */
+    }

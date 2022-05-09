@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Edit Details</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
+
+  <script src="https://www.gstatic.com/firebasejs/5.0.1/firebase.js"></script>
+</head>
+<style>
+  input[type="text"],
+  input[type="password"] {
+    border-radius: 10px;
+    background-color: #f0f1f1;
+    color: rgb(8, 6, 6);
+    width: 85%;
+    padding: 18px 15px;
+    margin: 8px 0;
+    display: inline-block;
+    border: none;
+    box-sizing: border-box;
+    font-size: 16px;
+    height: 40px;
+  }
+
+  body {
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100vh;
+  }
+
+  button {
+    border-radius: 10px;
+    background-color: #070808;
+    color: white;
+    padding: 18px 15px;
+    margin: -10px 0;
+    border: none;
+    cursor: pointer;
+    width: 85%;
+    font-size: 12px;
+  }
+
+  button:hover {
+    opacity: 0.8;
+  }
+
+  h1 {
+    text-align: center;
+    font-family: verdana;
+    font-size: 30px;
+    line-height: 35px;
+  }
+
+  .container {
+    text-align: center;
+    padding: 16px;
+  }
+
+  .container1 {
+    text-align: left;
+    padding: 16px;
+    /* padding-left: 36%; */
+  }
+
+  .container2 {
+    text-align: left;
+    padding: 16px;
+    /* padding-left: 36% ; */
+  }
+
+  span.psw {
+    padding-top: 16px;
+    margin: 3px 0;
+  }
+
+  span.pst {
+    padding-top: 16px;
+    margin: 3px 0;
+  }
+
+  img {
+    border-radius: 50%;
+  }
+
+  .arrow {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+  }
+
+  .left {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+  }
+
+  .customValidation {
+    color: red;
+    font-size: 14px;
+    /* display: none; */
+  }
+
+  .customValidation1 {
+    color: green;
+    font-size: 14px;
+    /* display: none; */
+  }
+</style>
+
+<body>
+  <div class="row" style="justify-content: center">
+    <div class="container1 col-3" style="
+          box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+          border-radius: 10px;
+        ">
+      <div class="container2">
+        <a href="account.html" style="color: black; font-size: 16px"><i class="arrow left"></i> Details</a>
+      </div>
+      <h1><strong>Edit Details</strong></h1>
+      <form class="needs-validation" novalidate onsubmit="changedtls();" action="">
+        <div class="container">
+          <input type="file" accept="image/gif, image/jpeg, image/png" name="image" id="file" onchange="loadFile(event)"
+            style="display: none" />
+          <img id="output" src="dummy-profile-pic.png" style="
+                min-width: 100px;
+                min-height: 100px;
+                max-width: 100px;
+                max-height: 100px;
+              " />
+          <p>
+            <label for="file" style="cursor: pointer">Upload Image</label>
+          </p>
+          <br />
+          <input type="text"  placeholder="Username" name="username" id="uname" required />
+          <br />
+          <input type="text"  placeholder="Phone Number" name="phonenum" id="phone" required
+            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="11"
+            size="50%" />
+          <!-- <div class="invalid-feedback" style="font-size: 14px">
+            Please fill in the details
+          </div> -->
+          <br />
+          <span class="psw">
+            Enter numbers only for phone number</span>
+          <span class="customValidation" id="validation2" style="display: none">
+            Phone number has been registered, please select a new phone
+            number</span>
+          <span class="customValidation1" id="validation3" style="display: none">
+            Username has been successfully updated</span>
+          <span class="customValidation1" id="validation4" style="display: none">
+            Phone number has been successfully changed</span>
+        </div>
+
+        <div class="container">
+          <button type="submit">Make Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+
+<script>
+  (function () {
+    "use strict";
+    window.addEventListener(
+      "load",
+      function () {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName("needs-validation");
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function (form) {
+          form.addEventListener(
+            "submit",
+            function (event) {
+              if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              form.classList.add("was-validated");
+            },
+            false
+          );
+        });
+      },
+      false
+    );
+  })();
+
+  function onlyNumberKey(evt) {
+    // Only ASCII character in that range allowed
+    var ASCIICode = evt.which ? evt.which : evt.keyCode;
+    if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57)) return false;
+    return true;
+  }
+
+  var config = {
+    apiKey: "AIzaSyCHEXfXqYbp6SrVkGQaqD8M7qS6OjbOvKk",
+    authDomain: "meeting-room-booking-106bb.firebaseapp.com",
+    databaseURL: "https://meeting-room-booking-106bb-default-rtdb.firebaseio.com",
+    projectId: "meeting-room-booking-106bb",
+    storageBucket: "meeting-room-booking-106bb.appspot.com",
+    messagingSenderId: "282229579896",
+    appId: "1:282229579896:web:2c78db0e1a646fb0ad8d8d",
+    measurementId: "G-XB6S8K34QE"
+  };
+  firebase.initializeApp(config);
+
+  var stored = localStorage["myKey"];
+  var query = firebase.database().ref().child("account").child(stored);
+  query.once("value", (snapshot) => {
+    var username = snapshot.child("username").val();
+    var phonenum = snapshot.child("telephone").val();
+    var image = snapshot.child("src_image").val();
+    document.getElementById("output").src = image;
+    document.getElementById("uname").value = username;
+    document.getElementById("phone").value = phonenum;
+  });
+
+  function changedtls() {
+    // document.getElementById("validation1").style.display = "none";
+    document.getElementById("validation2").style.display = "none";
+    document.getElementById("validation3").style.display = "none";
+    document.getElementById("validation4").style.display = "none";
+    event.preventDefault();
+
+    var userName = document.getElementById("uname").value;
+    var userPhone = document.getElementById("phone").value;
+    var stored = localStorage["myKey"];
+
+    if (userName == "" || userPhone == "") {
+      return;
+    } else {
+      var newtoken = generateToken();
+      var storageRef = firebase.storage().ref();
+      var ref = storageRef.child("images").child("image" + newtoken);
+      var file = document.getElementById("file").files[0];
+
+      if (file != null) {
+        ref.put(file).then((snapshot) => {
+          console.log("Uploaded a blob or file!");
+          snapshot.ref.getDownloadURL().then(function (downloadURL) {
+            console.log(downloadURL);
+            firebase
+              .database()
+              .ref("account/" + stored + "/src_image")
+              .set(downloadURL);
+          });
+        });
+      }
+      var query = firebase.database().ref().child("account").child(stored);
+      query.child("telephone").once("value", (snapshot) => {
+        if (snapshot.val() == userPhone) {
+          firebase
+            .database()
+            .ref("account/" + stored + "/username")
+            .set(userName);
+          document.getElementById("validation2").style.display = "none";
+          document.getElementById("validation3").style.display = "block";
+          document.getElementById("validation4").style.display = "none";
+        } else {
+          var query = firebase.database().ref().child("account");
+          query
+            .orderByChild("telephone")
+            .equalTo(userPhone)
+            .once("value", (cincai) => {
+              if (cincai.exists()) {
+                document.getElementById("validation2").style.display =
+                  "block";
+                document.getElementById("validation3").style.display = "none";
+                document.getElementById("validation4").style.display = "none";
+              } else {
+                firebase
+                  .database()
+                  .ref("account/" + stored + "/telephone")
+                  .set(userPhone);
+                firebase
+                  .database()
+                  .ref("account/" + stored + "/username")
+                  .set(userName);
+                document.getElementById("validation2").style.display = "none";
+                document.getElementById("validation3").style.display =
+                  "block";
+                document.getElementById("validation4").style.display =
+                  "block";
+              }
+            });
+        }
+      });
+    }
+  }
+
+  var loadFile = function (event) {
+    var image = document.getElementById("output");
+    image.src = URL.createObjectURL(event.target.files[0]);
+  };
+
+  function generateToken(length = 10) {
+    var characters =
+      "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    var charactersLength = characters.length;
+    var randomString = "";
+    for (var i = 0; i < length; i++) {
+      randomString +=
+        characters[Math.floor(Math.random() * charactersLength)];
+    }
+    return randomString;
+  }
+
+  async function sendParticipantEmail() {
+    var formData = new FormData();
+    formData.append("email", "ypleong@ubct.com.my");
+    formData.append(
+      "src",
+      "08-02-2022/-MvMLYLUIVyKcu10CmYO/-MsdYgJYbQdBUW_vi5oX"
+    );
+    formData.append("username", "chong");
+    formData.append("title", "title of meeting");
+    formData.append("datetime", "22-02-2022 14:00 - 15:00");
+    formData.append("host", "UBCT");
+    formData.append("hostEmail", "ypleong@ubct.com.my");
+    formData.append("location", "Level 1");
+    formData.append("token", "j3h0VoxNQ1C");
+
+    var response = await fetch(
+      "http://192.168.0.170/MRB/API/sendParticipantEmail.php",
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+    var data = await response.json();
+    console.log(data);
+  }
+</script>
+
+</html>

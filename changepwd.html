@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Edit Password</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/core.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/md5.js"></script>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+  <script src="https://www.gstatic.com/firebasejs/5.0.1/firebase.js"></script>
+</head>
+<style>
+  input[type=text],
+  input[type=password] {
+    border-radius: 10px;
+    background-color: #f0f1f1;
+    color: rgb(8, 6, 6);
+    width: 80%;
+    padding: 18px 15px;
+    margin: 8px 0;
+    display: inline-block;
+    border: none;
+    box-sizing: border-box;
+    font-size: 16px;
+    height: 40px;
+  }
+
+  body {
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100vh;
+  }
+
+  button {
+    border-radius: 10px;
+    background-color: #070808;
+    color: white;
+    padding: 18px 15px;
+    margin: -10px 0;
+    border: none;
+    cursor: pointer;
+    width: 80%;
+    font-size: 12px;
+  }
+
+  button:hover {
+    opacity: 0.8;
+  }
+
+  h1 {
+    text-align: center;
+    font-family: verdana;
+    font-size: 30px;
+    line-height: 25px;
+  }
+
+  .container {
+    text-align: center;
+    padding: 16px;
+  }
+
+  .container1 {
+    text-align: left;
+    padding: 16px;
+  }
+
+  .container2 {
+    text-align: left;
+    padding: 16px;
+    /* padding-left: 36% ; */
+  }
+
+  span.psw {
+    padding-top: 16px;
+    margin: 3px 0;
+  }
+
+  span.pst {
+    padding-top: 16px;
+    margin: 3px 0;
+  }
+
+  img {
+    border-radius: 50%;
+  }
+
+  .arrow {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+  }
+
+  .left {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+  }
+
+  .customValidation {
+    color: red;
+    font-size: 14px;
+    /* display: none; */
+  }
+
+  .customValidation1 {
+    color: green;
+    font-size: 14px;
+    /* display: none; */
+  }
+</style>
+
+<body>
+  <div class="row" style="justify-content: center;">
+    <div class="container1 col-3" style="box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; border-radius: 10px;">
+      <div class="container2">
+        <a href="account.html" style="color:black; font-size: 16px;"><i class="arrow left"></i> Password</a>
+      </div>
+      <h1><strong>Edit Password</strong></h1>
+      <form class="needs-validation" novalidate onsubmit="changepass();" action="">
+        <div class="container" style="margin-left: -8px;">
+          <input type="password" placeholder="Current Password" name="psw" id="psw" required minlength="8">
+          <i class="far fa-eye" id="togglePassword" style="margin-left: -30px; cursor: pointer;"></i>
+          <br>
+          <input type="password" placeholder="New Password" name="newpsw" id="psw1" required minlength="8"> 
+          <i class="far fa-eye" id="togglePassword1" style="margin-left: -30px; cursor: pointer;"></i>
+          <br>
+          <input type="password" placeholder="Retype New Password" name="renewpsw" id="psw2"
+            required minlength="8">
+          <i class="far fa-eye" id="togglePassword2" style="margin-left: -30px; cursor: pointer;"></i>            
+          <br><br>
+          <span class="psw" style = "margin-left: 15px"> Password must be 8 or more characters</span>
+          <!-- <div class="invalid-feedback" style="font-size: 14px">
+            Please make sure the details are correct
+          </div> -->
+          <span class="customValidation" id="validation1" style="display: none;"> Old password is incorrect</span>
+          <span class="customValidation" id="validation2" style="display: none;"> New password is not the same</span>
+          <span class="customValidation1" id="validation3" style="display: none;"> Password successfully updated</span>
+        </div>
+
+        <div class="container">
+          <button type="submit">Update Password</button>
+        </div>
+      
+      </form>
+
+    </div>
+  </div>
+
+  <script>
+
+    const togglePassword = document.querySelector('#togglePassword');
+    const password = document.querySelector('#psw');
+
+    togglePassword.addEventListener('click', function (e) {
+      // toggle the type attribute
+      const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+      password.setAttribute('type', type);
+      // toggle the eye slash icon
+      this.classList.toggle('fa-eye-slash');
+    }); 
+
+    const togglePassword1 = document.querySelector('#togglePassword1');
+    const password1 = document.querySelector('#psw1');
+
+    togglePassword1.addEventListener('click', function (e) {
+      // toggle the type attribute
+      const type = password1.getAttribute('type') === 'password' ? 'text' : 'password';
+      password1.setAttribute('type', type);
+      // toggle the eye slash icon
+      this.classList.toggle('fa-eye-slash');
+    }); 
+
+    const togglePassword2 = document.querySelector('#togglePassword2');
+    const password2 = document.querySelector('#psw2');
+
+    togglePassword2.addEventListener('click', function (e) {
+      // toggle the type attribute
+      const type = password2.getAttribute('type') === 'password' ? 'text' : 'password';
+      password2.setAttribute('type', type);
+      // toggle the eye slash icon
+      this.classList.toggle('fa-eye-slash');
+    }); 
+    (function () {
+      'use strict';
+      window.addEventListener('load', function () {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function (form) {
+          form.addEventListener('submit', function (event) {
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+          }, false);
+        });
+      }, false);
+    })();
+
+    var config = {
+      apiKey: "AIzaSyCHEXfXqYbp6SrVkGQaqD8M7qS6OjbOvKk",
+      authDomain: "meeting-room-booking-106bb.firebaseapp.com",
+      databaseURL: "https://meeting-room-booking-106bb-default-rtdb.firebaseio.com",
+      projectId: "meeting-room-booking-106bb",
+      storageBucket: "meeting-room-booking-106bb.appspot.com",
+      messagingSenderId: "282229579896",
+      appId: "1:282229579896:web:2c78db0e1a646fb0ad8d8d",
+      measurementId: "G-XB6S8K34QE"
+    };
+    firebase.initializeApp(config);
+    function changepass() {
+      event.preventDefault();
+
+      document.getElementById("validation1").style.display = "none";
+      document.getElementById("validation2").style.display = "none";
+      document.getElementById("validation3").style.display = "none";
+
+      var oldpass = document.getElementById("psw").value;
+      var newpass = document.getElementById("psw1").value;
+      var newpass1 = document.getElementById("psw2").value;
+      var stored = localStorage['myKey'];
+
+      var temp = generateToken();
+
+      if (oldpass == "" || newpass == "" || newpass1 == "") {
+        return;
+      }
+      else {
+        var query = firebase.database().ref().child('account').child(stored);
+        query.once("value", snapshot => {
+          var oriPassword = snapshot.child("password").val();
+          var oriToken = snapshot.child("token").val();
+          if (oriPassword == (CryptoJS.MD5(oriToken + "" + oldpass).toString())) {
+            if (newpass == newpass1) {
+              firebase.database().ref('account/' + stored + "/password").set(generateEncryptPass(temp, newpass));
+              firebase.database().ref('account/' + stored + "/token").set(temp);
+              document.getElementById("validation1").style.display = "none";
+              document.getElementById("validation2").style.display = "none";
+              document.getElementById("validation3").style.display = "block";
+            }
+            else {
+              document.getElementById("validation1").style.display = "none";
+              document.getElementById("validation2").style.display = "block";
+              document.getElementById("validation3").style.display = "none";
+            }
+          }
+          else {
+            document.getElementById("validation1").style.display = "block";
+            document.getElementById("validation2").style.display = "none";
+            document.getElementById("validation3").style.display = "none";
+          }
+        })
+      }
+
+
+    }
+
+    function generateToken(length = 10) {
+      var characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      var charactersLength = characters.length;
+      var randomString = '';
+      for (var i = 0; i < length; i++) {
+        randomString += characters[Math.floor(Math.random() * charactersLength)];
+      }
+      return randomString;
+    }
+
+    function generateEncryptPass(temp, newpass) {
+      var pass = '';
+      pass = (CryptoJS.MD5(temp + "" + newpass).toString());
+      return pass;
+    }
+
+
+
+
+
+
+  </script>
+
+</body>
+
+</html>
