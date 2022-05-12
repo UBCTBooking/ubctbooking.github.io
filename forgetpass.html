@@ -238,7 +238,7 @@
     formData.append('id', id);
     formData.append('token', token);
 
-    var response = await fetch('http://192.168.0.170/MRB/API/sendForgetEmail.php', {
+    var response = await fetch('https://192.168.0.170/MRB/API/sendForgetEmail.php', {
       method: "POST",
       body: formData
     });
